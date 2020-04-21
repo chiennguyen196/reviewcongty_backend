@@ -16,7 +16,6 @@ public class Company {
     private String id;
     private String imageName;
     private String name;
-    private String slug;
     private Float rating;
     private Long ratingCount;
     private String companyType;
