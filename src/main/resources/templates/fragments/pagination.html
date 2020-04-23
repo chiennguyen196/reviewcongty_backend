@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="pagination(page, totalPages, pageNumbers, baseLink)">
+    <nav aria-label="pagination"
+         class="pagination is-small custom-pagination d-flex flex-column flex-md-row align-items-center align-items-md-center justify-content-center justify-content-md-between"
+         role="navigation">
+            <span class="pagination-summary">Trang <b class="text-dark"><span th:remove="tag" th:text="${page}"></span>
+            </b> trên tổng số <b class="text-dark"><span th:remove="tag" th:text="${totalPages}"></span></b> </span>
+        <ul class="pagination-list" th:if="${totalPages > 1}">
+            <th:block th:each="pageNumber : ${pageNumbers}">
+                <li>
+                    <a class="pagination-link" th:class="${pageNumber == page} ? is-current"
+                       th:href="@{/{url}(url=${baseLink},page=${pageNumber})}">
+                        <span th:remove="tag" th:text="${pageNumber}"></span>
+                    </a>
+                </li>
+            </th:block>
+        </ul>
+    </nav>
+</th:block>
+
+</body>
+</html>

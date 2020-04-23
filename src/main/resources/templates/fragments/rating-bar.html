@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<span class="ic is-small text-warning" th:fragment="no-star">
+    <i class="fa fa-star-o">
+    </i>
+</span>
+<span class="ic is-small text-warning" th:fragment="half-star">
+    <i class="fa fa-star-half-o">
+    </i>
+</span>
+
+<span class="ic is-small text-warning" th:fragment="full-star">
+    <i class="fa fa-star">
+    </i>
+</span>
+
+
+<th:block th:fragment="rating-bar(rating)">
+    <!--    <p th:text="${rating}"></p>-->
+    <span th:if="${rating < 0.5}">
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+    </span>
+    <span th:if="${0.5 <= rating && rating < 1}">
+        <th:block th:insert="~{::half-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+    </span>
+    <span th:if="${1 <= rating && rating < 1.5}">
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+    </span>
+    <span th:if="${1.5 <= rating && rating < 2}">
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::half-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+    </span>
+    <span th:if="${2 <= rating && rating < 2.5}">
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+    </span>
+    <span th:if="${2.5 <= rating && rating < 3}">
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::half-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+    </span>
+    <span th:if="${3 <= rating && rating < 3.5}">
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+    </span>
+    <span th:if="${3.5 <= rating && rating < 4}">
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::half-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+    </span>
+    <span th:if="${4 <= rating && rating < 4.5}">
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::no-star}"></th:block>
+    </span>
+    <span th:if="${4.5 <= rating && rating < 5}">
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::half-star}"></th:block>
+    </span>
+    <span th:if="${rating >= 5}">
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+        <th:block th:insert="~{::full-star}"></th:block>
+    </span>
+</th:block>
+
+</body>
+</html>

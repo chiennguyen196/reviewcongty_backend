@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #main}
+                                               )}"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Review công ty - Home</title>
+</head>
+
+<body>
+
+<div id="main">
+    <div class="container main-container">
+        <th:block th:insert="~{fragments/search-bar :: section}"></th:block>
+        <div class="main-columns">
+            <div class="row">
+                <section class="companies col-12 col-lg-8">
+                    <div class="card mb-2">
+                        <div class="card-body p-0">
+                            <div class="tabs">
+                                <ul>
+                                    <li class="tab is-active" data-tab="top-comments">
+                                        <a class="font-bold text-dark" href="#">
+                                                            <span class="ic text-info">
+                                                                <i class="fa fa-comments">
+                                                                </i>
+                                                            </span> Mới cập nhật
+                                        </a>
+                                    </li>
+                                    <li class="tab " data-tab="top-companies">
+                                        <a class="font-bold text-dark" href="#">
+                                                            <span class="ic text-success">
+                                                                <i class="fa fa-thumbs-up">
+                                                                </i>
+                                                            </span> Top công ty xịn
+                                        </a>
+                                    </li>
+                                    <li class="tab " data-tab="worst-companies">
+                                        <a class="font-bold text-dark" href="#">
+                                                            <span class="ic text-danger">
+                                                                <i class="fa fa-thumbs-down">
+                                                                </i>
+                                                            </span> Công ty bựa nên né
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header pl-3 pr-3 pt-3 pb-0 bg-light-cust">
+                            <th:block
+                                    th:insert="~{fragments/pagination :: pagination (${companyPage.number + 1}, ${companyPage.totalPages}, ${pageNumbers}, '')}"></th:block>
+                        </div>
+                        <div class="card-body p-0">
+                            <th:block
+                                    th:insert="~{fragments/company-list :: company-list (${companyPage.content})}"></th:block>
+
+                        </div>
+                        <div class="card-footer pl-3 pr-3 pt-3 pb-1 bg-light-cust">
+                            <th:block
+                                    th:insert="~{fragments/pagination :: pagination (${companyPage.number + 1}, ${companyPage.totalPages}, ${pageNumbers}, '')}"></th:block>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="summary-reviews col-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-header p-2">
+                            <h5 class="h3 mb-0 text-center reviews__header text-uppercase text-uppercase">Fanpage</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="p-2 fb-plugin-page">
+                                <div class="fb-page" data-adapt-container-width="true" data-height=""
+                                     data-hide-cover="false" data-href="https://www.facebook.com/facebook/"
+                                     data-show-facepile="true"
+                                     data-small-header="false" data-tabs=""
+                                     data-width="">
+                                    <blockquote cite="https://www.facebook.com/facebook/" class="fb-xfbml-parse-ignore">
+                                        <a href="https://www.facebook.com/facebook/">Facebook</a></blockquote>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <th:block th:insert="~{fragments/recently-review :: recently-review}"></th:block>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

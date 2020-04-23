@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="tabs-section" th:fragment="company-list(items)">
+    <!-- ListView -->
+    <th:block th:each="item : ${items}" th:object="${item}">
+        <div class="company-item" data-href="detail.html">
+            <div class="company-info">
+                <figure class="company-info__logo image is-64x64">
+                    <img src="App/images/companies/reviewcongty.png">
+                </figure>
+                <div class="company-info__detail">
+                    <h2 class="company-info__name">
+                        <a href="detail.html" th:text="*{name}"></a>
+                        <span class="company-info__rating">
+                                    <th:block th:insert="~{fragments/rating-bar :: rating-bar(*{rating})}"></th:block>
+                                    <span class="company-info__rating-count">
+                                        <span th:remove="tag" th:text="*{ratingCount}"></span>
+                                    </span>
+                                </span>
+                    </h2>
+                    <div class="company-info__other d-flex">
+                                <span class="d-flex align-items-center">
+                                    <span class="ic">
+                                        <img src="App/svg/rv-work.svg">
+                                    </span> <span th:remove="tag" th:text="*{companyType}"></span>
+                                </span>
+                        <span class="d-flex align-items-center">
+                                    <span class="ic">
+                                        <img src="App/svg/rv-users-2.svg">
+                                    </span> <span th:remove="tag" th:text="*{size}"></span>
+                                </span>
+                    </div>
+                    <div class="company-info__location d-flex">
+                                <span class="ic">
+                                    <img src="App/svg/rv-place.svg">
+                                </span> <span th:remove="tag" th:text="*{address}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</div>
+
+</body>
+</html>
