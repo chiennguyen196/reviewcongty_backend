@@ -20,5 +20,6 @@ public class Company {
     private Long ratingCount;
     private String companyType;
     private String size;
+    private String address;
     private Date lastUpdated;
 }
