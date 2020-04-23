@@ -24,7 +24,7 @@ public class CompanyController {
     public ResponseEntity<PageResponse<Company>> getLatestUpdated(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int pageSize) {
-        Page<Company> companies = companyService.getLatestUpdated(page, pageSize);
+        Page<Company> companies = companyService.getLatestUpdated(page - 1, pageSize);
         return ResponseEntity.ok(transformer.transform(companies));
     }
 
