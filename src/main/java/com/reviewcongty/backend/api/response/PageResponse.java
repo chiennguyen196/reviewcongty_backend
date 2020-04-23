@@ -1,4 +1,4 @@
-package com.reviewcongty.backend.dto.response;
+package com.reviewcongty.backend.api.response;
 
 import lombok.Data;
 

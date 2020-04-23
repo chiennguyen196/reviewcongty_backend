@@ -1,15 +1,16 @@
-package com.reviewcongty.backend.controller;
+package com.reviewcongty.backend.api.controller;
 
+import com.reviewcongty.backend.api.response.PageResponse;
+import com.reviewcongty.backend.api.transform.Transformer;
 import com.reviewcongty.backend.dao.entity.Company;
-import com.reviewcongty.backend.dto.response.PageResponse;
 import com.reviewcongty.backend.service.CompanyService;
-import com.reviewcongty.backend.transform.Transformer;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
-@RequestMapping("/companies")
+@RequestMapping("/api/companies")
 public class CompanyController {
     private final CompanyService companyService;
     private final Transformer<PageResponse<Company>, Page<Company>> transformer;

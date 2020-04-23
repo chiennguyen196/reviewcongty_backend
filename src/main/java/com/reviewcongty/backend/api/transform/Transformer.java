@@ -1,4 +1,4 @@
-package com.reviewcongty.backend.transform;
+package com.reviewcongty.backend.api.transform;
 
 public interface Transformer<D, S> {
     D transform(S s);

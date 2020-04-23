@@ -1,4 +1,4 @@
-package com.reviewcongty.backend.controller;
+package com.reviewcongty.backend.api.controller;
 
 import com.reviewcongty.backend.dao.entity.Review;
 import com.reviewcongty.backend.service.ReviewService;
@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/reviews/{company-id}")
+@RequestMapping("/api/reviews/{company-id}")
 public class ReviewController {
     private final ReviewService reviewService;
 

@@ -1,6 +1,6 @@
-package com.reviewcongty.backend.transform;
+package com.reviewcongty.backend.api.transform;
 
-import com.reviewcongty.backend.dto.response.PageResponse;
+import com.reviewcongty.backend.api.response.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
