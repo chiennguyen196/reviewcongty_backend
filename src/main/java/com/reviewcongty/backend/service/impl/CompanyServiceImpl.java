@@ -4,15 +4,12 @@ import com.reviewcongty.backend.dao.entity.Company;
 import com.reviewcongty.backend.dao.repo.CompanyRepository;
 import com.reviewcongty.backend.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -30,7 +27,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Page<Company> getLatestUpdated(int page, int pageSize) {
-        Pageable pageableRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Order.desc("last_updated")));
+        Pageable pageableRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("last_updated")));
         return repository.findAll(pageableRequest);
     }
 

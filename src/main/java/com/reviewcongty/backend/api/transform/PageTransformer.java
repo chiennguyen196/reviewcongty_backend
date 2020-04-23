@@ -17,7 +17,7 @@ public class PageTransformer<T> implements Transformer<PageResponse<T>, Page<T>>
         response.setNumber(page.getNumber() + 1);
         response.setNumberOfElements(page.getNumberOfElements());
         response.setTotalElements(page.getTotalElements());
-        response.setTotalPage(page.getTotalPages());
+        response.setTotalPages(page.getTotalPages());
         return response;
     }
 }

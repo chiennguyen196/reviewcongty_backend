@@ -9,7 +9,7 @@ public class PageResponse<T> {
     private List<T> items;
     private int number;
     private int size;
-    private int totalPage;
+    private int totalPages;
     private long totalElements;
     private boolean last;
     private boolean first;
