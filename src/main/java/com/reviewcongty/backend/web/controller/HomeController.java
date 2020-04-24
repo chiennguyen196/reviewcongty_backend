@@ -26,11 +26,33 @@ public class HomeController {
 
     @GetMapping
     public String index(
+            @RequestParam(value = "tab", defaultValue = "latest") String tab,
             @RequestParam(value = "page", defaultValue = "1") int page,
             Model model) {
-        Page<Company> companyPage = companyService.getLatestUpdated(page - 1, 20);
+        Page<Company> companyPage = null;
+        int startPage = page - 1;
+        int pageSize = 20;
+        switch (tab) {
+            case "latest":
+                companyPage = companyService.getLatestUpdated(startPage, pageSize);
+                break;
+            case "drama":
+                companyPage = companyService.getDramaCompanies(startPage, pageSize);
+                break;
+            case "best":
+                companyPage = companyService.getBestCompanies(startPage, pageSize);
+                break;
+            case "worst":
+                companyPage = companyService.getWorstCompanies(startPage, pageSize);
+                break;
+            default:
+                return "not-found";
+        }
+
+
         List<Review> recentlyReviews = reviewService.getRecentlyReviews(15);
 
+        model.addAttribute("tab", tab);
         model.addAttribute("companyPage", companyPage);
         model.addAttribute("recentlyReviews", recentlyReviews);
 

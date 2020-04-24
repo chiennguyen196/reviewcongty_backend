@@ -21,28 +21,35 @@
                         <div class="card-body p-0">
                             <div class="tabs">
                                 <ul>
-                                    <li class="tab is-active" data-tab="top-comments">
-                                        <a class="font-bold text-dark" href="#">
+                                    <li class="tab" th:class="${tab == 'latest'} ? is-active">
+                                        <a class="font-bold text-dark" th:href="@{/(tab='latest')}">
                                                             <span class="ic text-info">
                                                                 <i class="fa fa-comments">
                                                                 </i>
                                                             </span> Mới cập nhật
                                         </a>
                                     </li>
-                                    <li class="tab " data-tab="top-companies">
-                                        <a class="font-bold text-dark" href="#">
+                                    <li class="tab" th:class="${tab == 'drama'} ? is-active">
+                                        <a class="font-bold text-dark" th:href="@{/(tab='drama')}">
+                                                            <span class="ic text-warning">
+                                                                <i class="fa fa-fire"></i>
+                                                            </span> Top drama
+                                        </a>
+                                    </li>
+                                    <li class="tab" th:class="${tab == 'best'} ? is-active">
+                                        <a class="font-bold text-dark" th:href="@{/(tab='best')}">
                                                             <span class="ic text-success">
                                                                 <i class="fa fa-thumbs-up">
                                                                 </i>
                                                             </span> Top công ty xịn
                                         </a>
                                     </li>
-                                    <li class="tab " data-tab="worst-companies">
-                                        <a class="font-bold text-dark" href="#">
+                                    <li class="tab" th:class="${tab == 'worst'} ? is-active">
+                                        <a class="font-bold text-dark" th:href="@{/(tab='worst')}">
                                                             <span class="ic text-danger">
                                                                 <i class="fa fa-thumbs-down">
                                                                 </i>
-                                                            </span> Công ty bựa nên né
+                                                            </span> Top công ty bựa
                                         </a>
                                     </li>
                                 </ul>
@@ -52,7 +59,7 @@
                     <div class="card">
                         <div class="card-header pl-3 pr-3 pt-3 pb-0 bg-light-cust">
                             <th:block
-                                    th:insert="~{fragments/pagination :: pagination (${companyPage.number + 1}, ${companyPage.totalPages}, '')}"></th:block>
+                                    th:insert="~{fragments/pagination :: pagination (${companyPage.number + 1}, ${companyPage.totalPages}, '' )}"></th:block>
                         </div>
                         <div class="card-body p-0">
                             <th:block

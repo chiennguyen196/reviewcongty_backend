@@ -32,8 +32,26 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public Page<Company> getBestCompanies(int page, int pageSize) {
+        Pageable pageableRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("rating"), Sort.Order.desc("rating_count")));
+        return repository.findAll(pageableRequest);
+    }
+
+    @Override
+    public Page<Company> getWorstCompanies(int page, int pageSize) {
+        Pageable pageableRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Order.asc("rating"), Sort.Order.desc("rating_count")));
+        return repository.findAll(pageableRequest);
+    }
+
+    @Override
+    public Page<Company> getDramaCompanies(int page, int pageSize) {
+        Pageable pageableRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("rating_count"), Sort.Order.asc("rating")));
+        return repository.findAll(pageableRequest);
+    }
+
+    @Override
     public Company findById(String id) {
         Optional<Company> optional = repository.findById(id);
-        return optional.orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found company with id: " + id));
+        return optional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found company with id: " + id));
     }
 }

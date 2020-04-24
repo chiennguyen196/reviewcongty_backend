@@ -16,7 +16,7 @@
                     th:each="pageNumber : ${T(com.reviewcongty.backend.web.util.Pagination).getPageNumbers(page, totalPages)}">
                 <li>
                     <a class="pagination-link" th:class="${pageNumber == page} ? is-current"
-                       th:href="@{/{url}(url=${baseLink},page=${pageNumber})}">
+                       th:href="@{/{url}(url=${baseLink},tab=${tab},page=${pageNumber})}">
                         <span th:remove="tag" th:text="${pageNumber}"></span>
                     </a>
                 </li>
