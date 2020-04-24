@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="full-reviews" th:fragment="review-list(items)">
+    <th:block th:each="item : ${items}" th:object="${item}">
+        <div class="review card">
+            <header class="border-0 card-header px-3 py-2 d-flex flex-column align-items-start justify-content-between">
+                <p class="card-header-title mb-0">
+                    <b class="mr-2">
+                        <th:block th:text="*{name}"></th:block>
+                        -
+                        <th:block th:text="*{position}"></th:block>
+                    </b>
+                    <span>
+                    <th:block th:insert="~{fragments/rating-bar :: rating-bar(*{rating})}"></th:block>
+                </span>
+                </p>
+                <div class="review-sub-info">
+                    <time class="review__time">
+                    <span th:remove="tag"
+                          th:text="${T(com.reviewcongty.backend.web.util.TimeUtils).getRelativeTime(item.created)}"></span>
+                    </time>
+                </div>
+            </header>
+            <div class="card-body px-3 pt-0 pb-2 border-0">
+                <div class="content text-500">
+                    <div id="">
+                        <span th:utext="*{content}"></span>
+                    </div>
+                </div>
+            </div>
+            <footer class="card-footer px-3 py-2 border-0 d-flex justify-content-between align-items-center">
+                <div class="card-footer-action">
+                    <a class="link-comment card-footer-item clickable" data-id="" data-prefill="" data-reaction="LIKE"
+                       href="#">
+                                                <span class="icon-reply ic text-info">
+                                                    <i class="fa fa-commenting">
+                                                    </i>
+                                                </span> Reply
+                    </a>
+                    <a class="link-comment card-footer-item clickable" data-id=""
+                       data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"
+                       href="#">
+                        <th:block th:text="*{numLikes}"></th:block>
+                        <span class="icon-like ic text-success">
+                            <i class="fa fa-thumbs-up">
+                            </i>
+                        </span>
+                    </a>
+                    <a class="link-comment card-footer-item clickable" data-id=""
+                       data-prefill="Review nhảm nhí, dislike" data-reaction="HATE"
+                       href="#">
+                        <th:block th:text="*{numDislikes}"></th:block>
+                        <span class="icon-dislike ic text-danger">
+                            <i class="fa fa-thumbs-down">
+                            </i>
+                        </span>
+                    </a>
+                    <a class="link-comment card-footer-item clickable" data-id="" data-prefill="Xóa review này giùm!"
+                       data-reaction="DELETE"
+                       href="#">
+                        <th:block th:text="*{numDeleteRequests}"></th:block>
+                        <span class="icon-ban ic">
+                            <i class="fa fa-close text-danger">
+                            </i>
+                        </span>
+                    </a>
+                </div>
+            </footer>
+            <div class="review-comments" th:if="${item.replies.size() > 0}">
+                <th:block th:each="reply : ${item.replies}">
+                    <div class="comment">
+                        <p class="comment__title">
+                            <span class="font-bold" th:text="${reply.name}"> </span>
+                            <span class="text-muted rv-cmt-time"
+                                  th:text="${T(com.reviewcongty.backend.web.util.TimeUtils).getRelativeTime(reply.created)}"></span>
+                        </p>
+                        <p class="comment__content text-500" th:text="${reply.content}"></p>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </th:block>
+    <!--    <div class="review card">-->
+    <!--        <header class="border-0 card-header px-3 py-2 d-flex flex-column align-items-start justify-content-between">-->
+    <!--            <p class="card-header-title mb-0">-->
+    <!--                <b class="mr-2">HTML</b>-->
+    <!--                <span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                            </span>-->
+    <!--            </p>-->
+    <!--            <div class="review-sub-info">-->
+    <!--                <a href="#" class=" text-muted" title="Chia sẻ">-->
+    <!--                    <time class="review__time">12 ngày trước <i class="fa fa-code"></i>-->
+    <!--                    </time>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </header>-->
+    <!--        <div class="card-body px-3 pt-0 pb-2 border-0">-->
+    <!--            <div class="content text-500">-->
+    <!--                <div id="">-->
+    <!--                                                <span>chắc bên đấy toàn người đi làm vì đam mê chứ lương lậu quan trọng gì-->
+    <!--                                                </span>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <footer class="card-footer px-3 py-2 border-0 d-flex justify-content-between align-items-center">-->
+    <!--            <div class="card-footer-action">-->
+    <!--                <a href="#" data-id="" data-prefill="" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">-->
+    <!--                                                <span class="icon-reply ic text-info">-->
+    <!--                                                    <i class="fa fa-commenting">-->
+    <!--                                                    </i>-->
+    <!--                                                </span> Reply-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">2-->
+    <!--                    <span class="icon-like ic text-success">-->
+    <!--                                                    <i class="fa fa-thumbs-up">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Review nhảm nhí, dislike" data-reaction="HATE"-->
+    <!--                   class="link-comment card-footer-item clickable">1-->
+    <!--                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                    <i class="fa fa-thumbs-down">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Xóa review này giùm!" data-reaction="DELETE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-ban ic">-->
+    <!--                                                    <i class="fa fa-close text-danger">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </footer>-->
+    <!--        <div class="review-comments">-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Dev dạo đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">12 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">không có OT thì làm lmj-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> HTML đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">11 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">mới vào làm nên làm chậm phải về muộn các bác ạ. Nhìn-->
+    <!--                    mấy ac được về sớm cũng thèm-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                        <i class="fa fa-thumbs-down">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">10 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">vl cái đam mê cao cả thật, chắc thừa tiền mới đam mê-->
+    <!--                    được như thế-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="review card">-->
+    <!--        <header class="border-0 card-header px-3 py-2 d-flex flex-column align-items-start justify-content-between">-->
+    <!--            <p class="card-header-title mb-0">-->
+    <!--                <b class="mr-2">nhân viên cũ (Dev quèn)</b>-->
+    <!--                <span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                            </span>-->
+    <!--            </p>-->
+    <!--            <div class="review-sub-info">-->
+    <!--                <a href="#" class=" text-muted" title="Chia sẻ">-->
+    <!--                    <time class="review__time">12 ngày trước <i class="fa fa-code"></i>-->
+    <!--                    </time>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </header>-->
+    <!--        <div class="card-body px-3 pt-0 pb-2 border-0">-->
+    <!--            <div class="content text-500">-->
+    <!--                <div id="">-->
+    <!--                                                <span>Làm ở đây đã lâu, công bằng mà nói thì chẳng ai muốn nói xấu công ty cũ cả.-->
+    <!--                                                    <br>Nhưng đứng ở khía cạnh một người trung lập, review khách quan nhất thì.-->
+    <!--                                                    <br>CÔNG TY CÔNG CÓ LẤY MỘT CHÚT SỰ CHUYÊN NGHIỆP NÀO-->
+    <!--                                                    <br>Lướt qua 1 lượt review:-->
+    <!--                                                    <br>- Công ty gia đình, chia bè phái: Cũng đúng-->
+    <!--                                                    <br>- Cày như trâu bò, OT liên miên: Đúng-->
+    <!--                                                    <br>- Nhân sự ém lương nhân viên, ra vẽ nắm quyền, ra vẻ hiểu biết, phán xét: Đúng-->
+    <!--                                                    <br>- Thủ tục hành chính rườm rà, hành lên hành xuống, bao nhiêu tháng k đòi được sổ bảo hiểm, lương tháng cuối: Đúng-->
+    <!--                                                    <br>Bonus thêm:-->
+    <!--                                                    <br>- Các bạn đã từng làm ở các môi trường chuyên nghiệp đừng nên vào đây, đứng đầu các bộ phận đều là junior của công ty đi lên nắm giữ, nên quy trình làm việc, đánh giá công việc, công việc bạn làm, tất cả đều là một mớ hỗn độn.-->
+    <!--                                                    <br>- Các phòng ban thì làm việc theo kiểu ngẫu hứng, đừng nhìn 10 năm mà-->
+    <!--                                                </span>-->
+    <!--                    <span class="see-more__dots">...-->
+    <!--                                                </span>-->
+    <!--                    <a class="see-more__btn">Xem thêm-->
+    <!--                    </a>-->
+    <!--                    <span class="see-more__expand"> nhầm tưởng.-->
+    <!--                                                </span>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <footer class="card-footer px-3 py-2 border-0 d-flex justify-content-between align-items-center">-->
+    <!--            <div class="card-footer-action">-->
+    <!--                <a href="#" data-id="" data-prefill="" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">-->
+    <!--                                                <span class="icon-reply ic text-info">-->
+    <!--                                                    <i class="fa fa-commenting">-->
+    <!--                                                    </i>-->
+    <!--                                                </span> Reply-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-like ic text-success">-->
+    <!--                                                    <i class="fa fa-thumbs-up">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Review nhảm nhí, dislike" data-reaction="HATE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                    <i class="fa fa-thumbs-down">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Xóa review này giùm!" data-reaction="DELETE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-ban ic">-->
+    <!--                                                    <i class="fa fa-close text-danger">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </footer>-->
+    <!--    </div>-->
+    <!--    <div class="review card">-->
+    <!--        <header class="border-0 card-header px-3 py-2 d-flex flex-column align-items-start justify-content-between">-->
+    <!--            <p class="card-header-title mb-0">-->
+    <!--                <b class="mr-2">kaka (dev quèn)</b>-->
+    <!--                <span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                            </span>-->
+    <!--            </p>-->
+    <!--            <div class="review-sub-info">-->
+    <!--                <a href="#" class=" text-muted" title="Chia sẻ">-->
+    <!--                    <time class="review__time">19 ngày trước <i class="fa fa-code"></i>-->
+    <!--                    </time>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </header>-->
+    <!--        <div class="card-body px-3 pt-0 pb-2 border-0">-->
+    <!--            <div class="content text-500">-->
+    <!--                <div id="">-->
+    <!--                                                <span>Có mấy sếp cũng giỏi, được theo các sếp thì ngon, còn cũng có sếp dốt hơn mình, đen thì chịu-->
+    <!--                                                </span>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <footer class="card-footer px-3 py-2 border-0 d-flex justify-content-between align-items-center">-->
+    <!--            <div class="card-footer-action">-->
+    <!--                <a href="#" data-id="" data-prefill="" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">-->
+    <!--                                                <span class="icon-reply ic text-info">-->
+    <!--                                                    <i class="fa fa-commenting">-->
+    <!--                                                    </i>-->
+    <!--                                                </span> Reply-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">2-->
+    <!--                    <span class="icon-like ic text-success">-->
+    <!--                                                    <i class="fa fa-thumbs-up">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Review nhảm nhí, dislike" data-reaction="HATE"-->
+    <!--                   class="link-comment card-footer-item clickable">1-->
+    <!--                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                    <i class="fa fa-thumbs-down">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Xóa review này giùm!" data-reaction="DELETE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-ban ic">-->
+    <!--                                                    <i class="fa fa-close text-danger">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </footer>-->
+    <!--        <div class="review-comments">-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">19 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Tôi làm việc team anh Đắc, anh vui tính lắm-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> dev đã-->
+    <!--                                                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                        <i class="fa fa-thumbs-down">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">13 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Làm việc vui thì đi chơi, đi lam việc chọn nơi chuyên-->
+    <!--                    nghiệp làm hết năng lực và nhận tiền xứng đáng.-->
+    <!--                    <br>Chắc trẻ trâu va hành chính ns pôt bài-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">11 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Mình vào tìm hiểu thấy ông ty này năm ngoái mới lọt top-->
+    <!--                    10 doanh nghiệp công nghệ 4.0, mình học ngành AI thì ứng tuyển hợp không nhỉ-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="review card">-->
+    <!--        <header class="border-0 card-header px-3 py-2 d-flex flex-column align-items-start justify-content-between">-->
+    <!--            <p class="card-header-title mb-0">-->
+    <!--                <b class="mr-2">review có tâm</b>-->
+    <!--                <span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                            </span>-->
+    <!--            </p>-->
+    <!--            <div class="review-sub-info">-->
+    <!--                <a href="#" class=" text-muted" title="Chia sẻ">-->
+    <!--                    <time class="review__time">20 ngày trước <i class="fa fa-code"></i>-->
+    <!--                    </time>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </header>-->
+    <!--        <div class="card-body px-3 pt-0 pb-2 border-0">-->
+    <!--            <div class="content text-500">-->
+    <!--                <div id="">-->
+    <!--                                                <span>Tôi cũng từng làm ở đây được mấy tháng, lương lậu cũng thuộc tầm trung thôi, công việc thì khá nhiều, yêu cầu cao. Nhưng leader của tôi khá tận tình-->
+    <!--                                                </span>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <footer class="card-footer px-3 py-2 border-0 d-flex justify-content-between align-items-center">-->
+    <!--            <div class="card-footer-action">-->
+    <!--                <a href="#" data-id="" data-prefill="" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">-->
+    <!--                                                <span class="icon-reply ic text-info">-->
+    <!--                                                    <i class="fa fa-commenting">-->
+    <!--                                                    </i>-->
+    <!--                                                </span> Reply-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-like ic text-success">-->
+    <!--                                                    <i class="fa fa-thumbs-up">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Review nhảm nhí, dislike" data-reaction="HATE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                    <i class="fa fa-thumbs-down">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Xóa review này giùm!" data-reaction="DELETE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-ban ic">-->
+    <!--                                                    <i class="fa fa-close text-danger">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </footer>-->
+    <!--    </div>-->
+    <!--    <div class="review card">-->
+    <!--        <header class="border-0 card-header px-3 py-2 d-flex flex-column align-items-start justify-content-between">-->
+    <!--            <p class="card-header-title mb-0">-->
+    <!--                <b class="mr-2">Người qua đường</b>-->
+    <!--                <span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                            </span>-->
+    <!--            </p>-->
+    <!--            <div class="review-sub-info">-->
+    <!--                <a href="#" class=" text-muted" title="Chia sẻ">-->
+    <!--                    <time class="review__time">24 ngày trước <i class="fa fa-code"></i>-->
+    <!--                    </time>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </header>-->
+    <!--        <div class="card-body px-3 pt-0 pb-2 border-0">-->
+    <!--            <div class="content text-500">-->
+    <!--                <div id="">-->
+    <!--                                                <span>Không có bức xúc gì, hóng xem các review có gì hót mà đọc qua một số công ty, đ' thấy công ty nào được khen, chả biết có nên đi làm k luôn =))-->
+    <!--                                                </span>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <footer class="card-footer px-3 py-2 border-0 d-flex justify-content-between align-items-center">-->
+    <!--            <div class="card-footer-action">-->
+    <!--                <a href="#" data-id="" data-prefill="" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">-->
+    <!--                                                <span class="icon-reply ic text-info">-->
+    <!--                                                    <i class="fa fa-commenting">-->
+    <!--                                                    </i>-->
+    <!--                                                </span> Reply-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">3-->
+    <!--                    <span class="icon-like ic text-success">-->
+    <!--                                                    <i class="fa fa-thumbs-up">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Review nhảm nhí, dislike" data-reaction="HATE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                    <i class="fa fa-thumbs-down">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Xóa review này giùm!" data-reaction="DELETE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-ban ic">-->
+    <!--                                                    <i class="fa fa-close text-danger">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </footer>-->
+    <!--        <div class="review-comments">-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">20 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Bác nói đúng vãi, tặng 1 like-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">19 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">chả biết đường nào mà lần ;))-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">19 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Bác nói đúng vãi, tặng 1 like-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="review card">-->
+    <!--        <header class="border-0 card-header px-3 py-2 d-flex flex-column align-items-start justify-content-between">-->
+    <!--            <p class="card-header-title mb-0">-->
+    <!--                <b class="mr-2">ẩn danh</b>-->
+    <!--                <span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                            </span>-->
+    <!--            </p>-->
+    <!--            <div class="review-sub-info">-->
+    <!--                <a href="#" class=" text-muted" title="Chia sẻ">-->
+    <!--                    <time class="review__time">Một tháng trước <i class="fa fa-code"></i>-->
+    <!--                    </time>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </header>-->
+    <!--        <div class="card-body px-3 pt-0 pb-2 border-0">-->
+    <!--            <div class="content text-500">-->
+    <!--                <div id="">-->
+    <!--                                                <span>Cày như trâu bò, nhưng được cái không biết đk đào tạo, với làm nhiều nên trình cũng lên nhanh, anh em xác định muốn lên trình nhanh thì ứng tuyển, còn muốn nhẹ nhàng, lương cao thì biết chỗ giới thiệu tôi với, tôi cũng muốn chuyển =))-->
+    <!--                                                </span>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <footer class="card-footer px-3 py-2 border-0 d-flex justify-content-between align-items-center">-->
+    <!--            <div class="card-footer-action">-->
+    <!--                <a href="#" data-id="" data-prefill="" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">-->
+    <!--                                                <span class="icon-reply ic text-info">-->
+    <!--                                                    <i class="fa fa-commenting">-->
+    <!--                                                    </i>-->
+    <!--                                                </span> Reply-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">4-->
+    <!--                    <span class="icon-like ic text-success">-->
+    <!--                                                    <i class="fa fa-thumbs-up">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Review nhảm nhí, dislike" data-reaction="HATE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                    <i class="fa fa-thumbs-down">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Xóa review này giùm!" data-reaction="DELETE"-->
+    <!--                   class="link-comment card-footer-item clickable">1-->
+    <!--                    <span class="icon-ban ic">-->
+    <!--                                                    <i class="fa fa-close text-danger">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </footer>-->
+    <!--        <div class="review-comments">-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Bác nói đúng vãi, tặng 1 like-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Bác nói đúng vãi, tặng 1 like-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> ẩn danh đã đề nghị xóa ❌-->
+    <!--                                                </span> &nbsp;-->
+    <!--                    25 ngày trước-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Ở đây được cái là cày như trâu như bò, việc nặng nề,-->
+    <!--                    lương thấp, trình thì tùy vào k của mỗi người-->
+    <!--                    <span class="text-muted rv-cmt-time"></p></span>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">19 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Công ty nào cũng nhiều việc vậy thôi bác ạ. Trụ được-->
+    <!--                    hay không do mình nữa-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> hóng hớt đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">12 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">chưa vào làm nhưng nghe mấy ông kia nói chn thô v***-->
+    <!--                    không ngửi được-->
+    <!--                    <br>-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="review card">-->
+    <!--        <header class="border-0 card-header px-3 py-2 d-flex flex-column align-items-start justify-content-between">-->
+    <!--            <p class="card-header-title mb-0">-->
+    <!--                <b class="mr-2">cầu review</b>-->
+    <!--                <span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                            </span>-->
+    <!--            </p>-->
+    <!--            <div class="review-sub-info">-->
+    <!--                <a href="#" class=" text-muted" title="Chia sẻ">-->
+    <!--                    <time class="review__time">Một tháng trước <i class="fa fa-code"></i>-->
+    <!--                    </time>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </header>-->
+    <!--        <div class="card-body px-3 pt-0 pb-2 border-0">-->
+    <!--            <div class="content text-500">-->
+    <!--                <div id="">-->
+    <!--                                                <span>thấy nhiều ý kiến trái chiều quá, mn cho e xin ít review thực tế đi ạ. Nghe mà hoang mang-->
+    <!--                                                </span>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <footer class="card-footer px-3 py-2 border-0 d-flex justify-content-between align-items-center">-->
+    <!--            <div class="card-footer-action">-->
+    <!--                <a href="#" data-id="" data-prefill="" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">-->
+    <!--                                                <span class="icon-reply ic text-info">-->
+    <!--                                                    <i class="fa fa-commenting">-->
+    <!--                                                    </i>-->
+    <!--                                                </span> Reply-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">2-->
+    <!--                    <span class="icon-like ic text-success">-->
+    <!--                                                    <i class="fa fa-thumbs-up">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Review nhảm nhí, dislike" data-reaction="HATE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                    <i class="fa fa-thumbs-down">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Xóa review này giùm!" data-reaction="DELETE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-ban ic">-->
+    <!--                                                    <i class="fa fa-close text-danger">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </footer>-->
+    <!--        <div class="review-comments">-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> code quèn đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">mới làm ở đây được mấy tháng nhưng thấy cũng làm gì mà-->
+    <!--                    thảm đến mức như mấy bác trên kia nói vậy. Nhưng tôi làm ở ngoài bắc nên kb công ty-->
+    <!--                    trong nam như nào-->
+    <!--                    <br>-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> dev ở ẩn đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">19 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">ké chút rì viu đi mấy bác-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="review card">-->
+    <!--        <header class="border-0 card-header px-3 py-2 d-flex flex-column align-items-start justify-content-between">-->
+    <!--            <p class="card-header-title mb-0">-->
+    <!--                <b class="mr-2">Ẩn danh</b>-->
+    <!--                <span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                            </span>-->
+    <!--            </p>-->
+    <!--            <div class="review-sub-info">-->
+    <!--                <a href="#" class=" text-muted" title="Chia sẻ">-->
+    <!--                    <time class="review__time">Một tháng trước <i class="fa fa-code"></i>-->
+    <!--                    </time>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </header>-->
+    <!--        <div class="card-body px-3 pt-0 pb-2 border-0">-->
+    <!--            <div class="content text-500">-->
+    <!--                <div id="">-->
+    <!--                                                <span>công ty gì mà tìm cách ăn chặn tiền nhân viên, trừ này trừ nọ, Nhân sự thì, ém lương nhân viên, ra vẽ nắm quyền, Giám đốc thì thôi khỏi nói chẳng hổ trợ nhân viên mà còn tìm cách làm khó người tài rồi lại ưu ái mấy đứa nịn lương còn cao hơn rất rất những người làm có kết quả trong khi chẳn làm được gì chỉ gỏi cái đi bằng đầu gối.-->
+    <!--                                                    <br>Bởi vậy Nhân sự thì dốt mà lên mặt với mọi người, ăn tiền, chèn ép nhân viên, ăn chặn ăn bớt tiền lương mồ hô nước mắt của người lao động, rồi kết nối bè phái rút tiền cty. Ông Giám Đốc thì cũng vậy bè phái tạo ra bè phái ....ôi nhức đầu lắm... FSI hả bỏ qua, một doanh nghiệp đen đừng nên dính vào mất thời gian, và công sức chẳng được gì nhiều khi còn đem họa cho bản thân...-->
+    <!--                                                </span>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <footer class="card-footer px-3 py-2 border-0 d-flex justify-content-between align-items-center">-->
+    <!--            <div class="card-footer-action">-->
+    <!--                <a href="#" data-id="" data-prefill="" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">-->
+    <!--                                                <span class="icon-reply ic text-info">-->
+    <!--                                                    <i class="fa fa-commenting">-->
+    <!--                                                    </i>-->
+    <!--                                                </span> Reply-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">8-->
+    <!--                    <span class="icon-like ic text-success">-->
+    <!--                                                    <i class="fa fa-thumbs-up">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Review nhảm nhí, dislike" data-reaction="HATE"-->
+    <!--                   class="link-comment card-footer-item clickable">1-->
+    <!--                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                    <i class="fa fa-thumbs-down">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Xóa review này giùm!" data-reaction="DELETE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-ban ic">-->
+    <!--                                                    <i class="fa fa-close text-danger">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </footer>-->
+    <!--        <div class="review-comments">-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Bác nói đúng vãi, tặng 1 like-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Bác nói đúng vãi, tặng 1 like-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Bác nói đúng vãi, tặng 1 like-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Bác nói đúng vãi, tặng 1 like-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Sự thật là vậy, tặng 1 like-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Bác nói đúng vãi, tặng 1 like-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                        <i class="fa fa-thumbs-down">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Review nhảm nhí, dislike-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Tôi vừa xem thấy công ty thành lập hơn 12 năm rồi, tăng-->
+    <!--                    trưởng cũng nhanh, nhiều hoạt động và được nhiều giải thưởng lớn đó chứ. Như chủ thớt-->
+    <!--                    nói, nghe nát quá, không biết có thật không?-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Khách qua đường đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">17 ngày trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Có vụ nợ lương ẻm tiền nhân viên à bác thế chế độ lương-->
+    <!--                    thưởng ở đây thế nào-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="review card">-->
+    <!--        <header class="border-0 card-header px-3 py-2 d-flex flex-column align-items-start justify-content-between">-->
+    <!--            <p class="card-header-title mb-0">-->
+    <!--                <b class="mr-2">Nguyễn Hùng Sơn - Võ Thị Phương Lan( Not me) (Tổng Giám Đốc kiêm Giám-->
+    <!--                    Đốc)</b>-->
+    <!--                <span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                            </span>-->
+    <!--            </p>-->
+    <!--            <div class="review-sub-info">-->
+    <!--                <a href="#" class=" text-muted" title="Chia sẻ">-->
+    <!--                    <time class="review__time">Một tháng trước <i class="fa fa-code"></i>-->
+    <!--                    </time>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </header>-->
+    <!--        <div class="card-body px-3 pt-0 pb-2 border-0">-->
+    <!--            <div class="content text-500">-->
+    <!--                <div id="">-->
+    <!--                                                <span>Chẳng hiểu chi nhánh tồn tại kiểu gì. Đưa Bà Lan HCNS vào, bà lan đưa cả con cháu vào phá cả chi nhánh. Thời kì hoàng kim thế hệ 1 FSI chi nhánh tốt làm sao. Để anh Sơn, bà Lan phá cả chi nhánh. Thấy người ta làm tốt thưởng nhiều đuổi sớm để khỏi trả thưởng nhân viên. Ép người ta nghỉ xong, chi nhánh lại gọi điện nhờ vã.-->
+    <!--                                                </span>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <footer class="card-footer px-3 py-2 border-0 d-flex justify-content-between align-items-center">-->
+    <!--            <div class="card-footer-action">-->
+    <!--                <a href="#" data-id="" data-prefill="" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">-->
+    <!--                                                <span class="icon-reply ic text-info">-->
+    <!--                                                    <i class="fa fa-commenting">-->
+    <!--                                                    </i>-->
+    <!--                                                </span> Reply-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">6-->
+    <!--                    <span class="icon-like ic text-success">-->
+    <!--                                                    <i class="fa fa-thumbs-up">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Review nhảm nhí, dislike" data-reaction="HATE"-->
+    <!--                   class="link-comment card-footer-item clickable">1-->
+    <!--                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                    <i class="fa fa-thumbs-down">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Xóa review này giùm!" data-reaction="DELETE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-ban ic">-->
+    <!--                                                    <i class="fa fa-close text-danger">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </footer>-->
+    <!--        <div class="review-comments">-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Bác nói đúng vãi, tặng 1 like-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">tốt nhất là đừng vào mệt thêm thôi, làm việc theo công-->
+    <!--                    thức sách vở, khôn lõi mà tưởng ta là siêu nhân...-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Nội bộ thì nợ lương nhân viên nhiều lúc gần đến 2 tháng-->
+    <!--                    mới nhận lương tháng kia rồi bài trò chuyển khác ngân hàng...-->
+    <!--                    <br>Đối với đối tác thì boom doanh nghiệp trăm tỉ ==&gt; nợ trăm tỉ thì có-->
+    <!--                    <br>Sản phẩm thì cùi hơn chử cùi mà nói hàng xịn ==&gt; ảo tưởng sức mạnh-->
+    <!--                    <br>Nhân sự thì phe phái ra vẻ nguy hiểm...-->
+    <!--                    <br>Giám đốc thì hám gái ==&gt; tệ nạn xã hội...-->
+    <!--                    <br>-->
+    <!--                    <br>-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Cty như LOL-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Móa gì có vụ này nữa hả, rồi công ty này là của bọn Bắc-->
+    <!--                    Kỳ chắc luôn.-->
+    <!--                    <br>Nếu đúng bọn Bắc Kỳ thì khỏi cân nói nhiều, ra vẻ khôn lỗi rồi giám chắc 1 điều chỉ-->
+    <!--                    làm liều chớ chả có mọe gì hết.-->
+    <!--                    <br>Người Bắc với người Bắc còn sợ lẫn nhau chơ nói gì người miền Nam.-->
+    <!--                    <br>=====&gt; Bọn Bắc Kỳ này nên tránh xa là tốt nhất, mất thời gian, mất công sức, rồi-->
+    <!--                    mất cả uy tín, chưa nói đến mất cả gia đình là khác rồi cuối cùng chẳng được gì chỉ khổ-->
+    <!--                    thêm..... nên tránh xa bọn này-->
+    <!--                    <br>-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-like ic text-success">-->
+    <!--                                                        <i class="fa fa-thumbs-up">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Đọc qua hết mới thấy, giám chắc 1 điều thằng làm ko ra-->
+    <!--                    gì dược thì lương cao chót vót, người làm ra kết quả thì tính chi ly từng đồng chiêu nay-->
+    <!--                    chỉ có tụi Bắc nó dùng thôi vì nó nghỉ dân Nam ngu hơn nó.-->
+    <!--                    <br>*** móa bọn Bắc Kỳ đọc sơ qua mà ức chế...-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--            <div class="comment">-->
+    <!--                <p class="comment__title">-->
+    <!--                                                <span class="font-bold"> Ẩn danh đã-->
+    <!--                                                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                        <i class="fa fa-thumbs-down">-->
+    <!--                                                        </i>-->
+    <!--                                                    </span>-->
+    <!--                                                </span>-->
+    <!--                    <span class="text-muted rv-cmt-time">Một tháng trước</span>-->
+    <!--                </p>-->
+    <!--                <p class="comment__content text-500">Tôi dị ứng mấy đứa mở mồm Bắc Kỳ, Nam Kỳ. Mang tiếng-->
+    <!--                    dân IT quá thể-->
+    <!--                </p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="review card">-->
+    <!--        <header class="border-0 card-header px-3 py-2 d-flex flex-column align-items-start justify-content-between">-->
+    <!--            <p class="card-header-title mb-0">-->
+    <!--                <b class="mr-2">Anonymous (Nhân viên)</b>-->
+    <!--                <span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                                <span class="ic is-small text-warning">-->
+    <!--                                                    <i class="fa fa-star-o">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                                            </span>-->
+    <!--            </p>-->
+    <!--            <div class="review-sub-info">-->
+    <!--                <a href="#" class=" text-muted" title="Chia sẻ">-->
+    <!--                    <time class="review__time">2 tháng trước <i class="fa fa-code"></i>-->
+    <!--                    </time>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </header>-->
+    <!--        <div class="card-body px-3 pt-0 pb-2 border-0">-->
+    <!--            <div class="content text-500">-->
+    <!--                <div id="">-->
+    <!--                                                <span>Em à anh đã biết-->
+    <!--                                                    <br>Là tình yêu này chẳng cần thiết-->
+    <!--                                                    <br>Em cần nơi bình yên-->
+    <!--                                                    <br>Chứ không phải anh kế bên-->
+    <!--                                                    <br>Em đừng giữ lại anh-->
+    <!--                                                    <br>Khi trái tim vụn vỡ chưa lành-->
+    <!--                                                    <br>Điều ban nãy anh vừa thấy là gì đấy-->
+    <!--                                                    <br>Em đã vờ khi hôn ai-->
+    <!--                                                    <br>Cận kề bên tai tựa đầu lên vai-->
+    <!--                                                    <br>Thấy em đang đắm say-->
+    <!--                                                    <br>Chắc em chẳng hay đôi mình vừa chia tay-->
+    <!--                                                    <br>Đôi khi tình yêu sẽ hóa nhạt nhòa-->
+    <!--                                                    <br>Khi vô tình một trong hai-->
+    <!--                                                    <br>Cuốn lấy sai trái đến khi vỡ lỡ-->
+    <!--                                                    <br>Cả hai hủy hoại tương lai-->
+    <!--                                                    <br>Chẳng cần một ai nữa-->
+    <!--                                                    <br>Bất kể ai cũng dư thừa-->
+    <!--                                                    <br>Một mình đứng khóc giữa mưa-->
+    <!--                                                    <br>Nén cơn đau vào từng hơi thở-->
+    <!--                                                    <br>Một người mình chẳng ngừng nhớ-->
+    <!--                                                    <br>Nhưng lại quay bước giả vờ-->
+    <!--                                                    <br>Bảo rằng mình cũng như em-->
+    <!--                                                    <br>Hết thương cạn nhớ-->
+    <!--                                                    <br>Sự thật là chỉ mỗi em-->
+    <!--                                                    <br>Hết thương cạn nhớ-->
+    <!--                                                    <br>Vì lỡ thấy em với người ta-->
+    <!--                                                    <br>Sao mà lại dễ quên em mà-->
+    <!--                                                    <br>Với tất cả gì đã xảy ra-->
+    <!--                                                    <br>Chỉ là còn-->
+    <!--                                                </span>-->
+    <!--                    <span class="see-more__dots">...-->
+    <!--                                                </span>-->
+    <!--                    <a class="see-more__btn">Xem thêm-->
+    <!--                    </a>-->
+    <!--                    <span class="see-more__expand"> nhân duyên-->
+    <!--                                                    <br>Nên lòng vẫn quyến luyến-->
+    <!--                                                    <br>Mai chia cắt muốn cũng chẳng thấy mặt-->
+    <!--                                                    <br>Em đã vờ khi hôn ai-->
+    <!--                                                    <br>Cận kề bên tai tựa đầu lên vai-->
+    <!--                                                    <br>Thấy em đang đắm say-->
+    <!--                                                    <br>Chắc em chẳng hay đôi mình vừa chia tay-->
+    <!--                                                    <br>Đôi khi tình yêu sẽ hóa nhạt nhòa-->
+    <!--                                                    <br>Khi vô tình một trong hai-->
+    <!--                                                    <br>Cuốn lấy sai trái đến khi vỡ lỡ-->
+    <!--                                                    <br>Cả hai hủy hoại tương lai-->
+    <!--                                                    <br>Chẳng cần một ai nữa-->
+    <!--                                                    <br>Bất kể ai cũng dư thừa-->
+    <!--                                                    <br>Một mình đứng khóc giữa mưa-->
+    <!--                                                    <br>Nén cơn đau vào từng hơi thở-->
+    <!--                                                    <br>Một người mình chẳng ngừng nhớ-->
+    <!--                                                    <br>Nhưng lại quay bước giả vờ-->
+    <!--                                                    <br>Bảo rằng mình cũng như em-->
+    <!--                                                    <br>Hết thương cạn nhớ crying-->
+    <!--                                                    <br>Sự thật là chỉ mỗi em-->
+    <!--                                                    <br>Chẳng cần một ai nữa-->
+    <!--                                                    <br>Bất kể ai cũng dư thừa-->
+    <!--                                                    <br>Một mình đứng khóc giữa mưa-->
+    <!--                                                    <br>Nén cơn đau vào từng hơi thở-->
+    <!--                                                    <br>Một người mình chẳng ngừng nhớ-->
+    <!--                                                    <br>Nhưng lại quay bước giả vờ-->
+    <!--                                                    <br>Bảo rằng mình cũng như em-->
+    <!--                                                    <br>Hết thương cạn nhớ-->
+    <!--                                                    <br>Sự thật là chỉ mỗi em-->
+    <!--                                                    <br>Hết thương cạn nhớ-->
+    <!--                                                    <br>Sự thật là chỉ-->
+    <!--                                                    <br>Một người giữ một người buông-->
+    <!--                                                </span>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <footer class="card-footer px-3 py-2 border-0 d-flex justify-content-between align-items-center">-->
+    <!--            <div class="card-footer-action">-->
+    <!--                <a href="#" data-id="" data-prefill="" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">-->
+    <!--                                                <span class="icon-reply ic text-info">-->
+    <!--                                                    <i class="fa fa-commenting">-->
+    <!--                                                    </i>-->
+    <!--                                                </span> Reply-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-like ic text-success">-->
+    <!--                                                    <i class="fa fa-thumbs-up">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Review nhảm nhí, dislike" data-reaction="HATE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-dislike ic text-danger">-->
+    <!--                                                    <i class="fa fa-thumbs-down">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--                <a href="#" data-id="" data-prefill="Xóa review này giùm!" data-reaction="DELETE"-->
+    <!--                   class="link-comment card-footer-item clickable">0-->
+    <!--                    <span class="icon-ban ic">-->
+    <!--                                                    <i class="fa fa-close text-danger">-->
+    <!--                                                    </i>-->
+    <!--                                                </span>-->
+    <!--                </a>-->
+    <!--            </div>-->
+    <!--        </footer>-->
+    <!--    </div>-->
+</div>
+
+</body>
+</html>

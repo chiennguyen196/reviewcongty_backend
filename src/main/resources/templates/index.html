@@ -59,7 +59,7 @@
                     <div class="card">
                         <div class="card-header pl-3 pr-3 pt-3 pb-0 bg-light-cust">
                             <th:block
-                                    th:insert="~{fragments/pagination :: pagination (${companyPage.number + 1}, ${companyPage.totalPages}, '' )}"></th:block>
+                                    th:insert="~{fragments/pagination :: pagination (${companyPage.number + 1}, ${companyPage.totalPages})}"></th:block>
                         </div>
                         <div class="card-body p-0">
                             <th:block
@@ -68,7 +68,7 @@
                         </div>
                         <div class="card-footer pl-3 pr-3 pt-3 pb-1 bg-light-cust">
                             <th:block
-                                    th:insert="~{fragments/pagination :: pagination (${companyPage.number + 1}, ${companyPage.totalPages}, '')}"></th:block>
+                                    th:insert="~{fragments/pagination :: pagination (${companyPage.number + 1}, ${companyPage.totalPages})}"></th:block>
                         </div>
                     </div>
                 </section>

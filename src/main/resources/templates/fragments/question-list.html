@@ -6,13 +6,13 @@
 </head>
 <body>
 
-<div class="tabs-section" th:fragment="company-list(items)">
+<div class="tabs-section" th:fragment="question-list(items)">
     <!-- ListView -->
     <th:block th:each="item : ${items}" th:object="${item}">
         <div class="company-item" data-href="detail.html">
             <div class="company-info">
                 <figure class="company-info__logo image is-64x64">
-                    <th:block th:insert="~{fragments/general :: image(item.imageName)}"></th:block>
+                    <img src="App/images/companies/reviewcongty.png">
                 </figure>
                 <div class="company-info__detail">
                     <h2 class="company-info__name">

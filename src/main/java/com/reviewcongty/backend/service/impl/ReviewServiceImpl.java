@@ -20,7 +20,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Page<Review> findByCompanyId(String companyId, int page, int pageSize) {
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Order.desc("created")));
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("created")));
         return repository.findByCompanyId(companyId, pageable);
     }
 

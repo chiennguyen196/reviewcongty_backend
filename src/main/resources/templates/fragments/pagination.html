@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<th:block th:fragment="pagination(page, totalPages, baseLink)">
+<th:block th:fragment="pagination(page, totalPages)">
     <nav aria-label="pagination"
          class="pagination is-small custom-pagination d-flex flex-column flex-md-row align-items-center align-items-md-center justify-content-center justify-content-md-between"
          role="navigation">
@@ -16,7 +16,7 @@
                     th:each="pageNumber : ${T(com.reviewcongty.backend.web.util.Pagination).getPageNumbers(page, totalPages)}">
                 <li>
                     <a class="pagination-link" th:class="${pageNumber == page} ? is-current"
-                       th:href="@{/{url}(url=${baseLink},tab=${tab},page=${pageNumber})}">
+                       th:href="@{${#httpServletRequest.requestURI}(tab=${tab},page=${pageNumber})}">
                         <span th:remove="tag" th:text="${pageNumber}"></span>
                     </a>
                 </li>

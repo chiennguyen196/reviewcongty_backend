@@ -12,7 +12,7 @@
                 <h4 class="mb-0 font-normal">
                     <span class="font-bold"><span th:remove="tag" th:text="${review.name}"></span>
                     </span> đã review
-                    <a class="text-main" href="detail.html">
+                    <a class="text-main" th:href="@{/companies/{id}(id=${review.companyId})}">
                         <span th:remove="tag" th:text="${review.companyName}"></span>
                     </a>
                 </h4>

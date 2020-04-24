@@ -20,6 +20,6 @@ public class ReviewController {
             @PathVariable("company-id") String companyId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int pageSize) {
-        return ResponseEntity.ok(reviewService.findByCompanyId(companyId, page, pageSize));
+        return ResponseEntity.ok(reviewService.findByCompanyId(companyId, page - 1, pageSize));
     }
 }
