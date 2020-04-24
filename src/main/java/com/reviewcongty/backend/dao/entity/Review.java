@@ -21,5 +21,6 @@ public class Review {
     private Integer numDislikes;
     private Integer numDeleteRequests;
     private String companyId;
+    private String companyName;
     private List<Reply> replies;
 }

@@ -4,12 +4,10 @@ import com.reviewcongty.backend.dao.entity.Review;
 import com.reviewcongty.backend.dao.repo.ReviewRepository;
 import com.reviewcongty.backend.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -24,5 +22,11 @@ public class ReviewServiceImpl implements ReviewService {
     public Page<Review> findByCompanyId(String companyId, int page, int pageSize) {
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Order.desc("created")));
         return repository.findByCompanyId(companyId, pageable);
+    }
+
+    @Override
+    public List<Review> getRecentlyReviews(int limit) {
+        Slice<Review> reviewSlice = repository.findAll(PageRequest.of(0, limit, Sort.by(Sort.Order.desc("created"))));
+        return reviewSlice.getContent();
     }
 }
