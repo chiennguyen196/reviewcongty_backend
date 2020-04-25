@@ -12,7 +12,7 @@
         <div class="company-item" data-href="detail.html">
             <div class="company-info">
                 <figure class="company-info__logo image is-64x64">
-                    <th:block th:insert="~{fragments/general :: image(item.imageName)}"></th:block>
+                    <th:block th:insert="~{fragments/general :: image(*{imageName})}"></th:block>
                 </figure>
                 <div class="company-info__detail">
                     <h2 class="company-info__name">
@@ -27,18 +27,18 @@
                     <div class="company-info__other d-flex">
                                 <span class="d-flex align-items-center">
                                     <span class="ic">
-                                        <img src="App/svg/rv-work.svg">
+                                        <img th:src="@{/content/App/svg/rv-work.svg}">
                                     </span> <span th:remove="tag" th:text="*{companyType}"></span>
                                 </span>
                         <span class="d-flex align-items-center">
                                     <span class="ic">
-                                        <img src="App/svg/rv-users-2.svg">
+                                        <img th:src="@{/content/App/svg/rv-users-2.svg}">
                                     </span> <span th:remove="tag" th:text="*{size}"></span>
                                 </span>
                     </div>
                     <div class="company-info__location d-flex">
                                 <span class="ic">
-                                    <img src="App/svg/rv-place.svg">
+                                    <img th:src="@{/content/App/svg/rv-place.svg}">
                                 </span> <span th:remove="tag" th:text="*{address}"></span>
                     </div>
                 </div>

@@ -9,6 +9,15 @@ spring:
     static-locations: file:src/main/resources/static/
     cache:
       period: 0
+
+  data:
+    mongodb:
+      host: 139.180.145.60
+      port: 27017
+      username: chien
+      password: password123
+      database: reviewcongty
+
 logging:
   level:
     org.springframework.web: DEBUG

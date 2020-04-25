@@ -28,7 +28,7 @@
                 <div class="company-item d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between">
                     <div class="company-info mb-2 mb-sm-0">
                         <figure class="company-info__logo image is-64x64">
-                            <th:block th:insert="~{fragments/general :: image(company.imageName)}"></th:block>
+                            <th:block th:insert="~{fragments/general :: image(*{imageName})}"></th:block>
                         </figure>
                         <div class="company-info__detail">
                             <h2 class="company-info__name">
@@ -45,18 +45,18 @@
                             <div class="company-info__other d-flex">
                                                 <span class="d-flex align-items-center">
                                                     <span class="ic">
-                                                        <img th:src="@{/App/svg/rv-work.svg}">
+                                                        <img th:src="@{/content/App/svg/rv-work.svg}">
                                                     </span> <span th:remove="tag" th:text="*{companyType}"></span>
                                                 </span>
                                 <span class="d-flex align-items-center">
                                                     <span class="ic">
-                                                        <img th:src="@{/App/svg/rv-users-2.svg}">
+                                                        <img th:src="@{/content/App/svg/rv-users-2.svg}">
                                                     </span> <span th:remove="tag" th:text="*{size}"></span>
                                                 </span>
                             </div>
                             <div class="company-info__location d-flex">
                                                     <span class="ic">
-                                                        <img th:src="@{/App/svg/rv-place.svg}">
+                                                        <img th:src="@{/content/App/svg/rv-place.svg}">
                                                     </span> <span th:remove="tag" th:text="*{address}"></span>
                             </div>
                         </div>
@@ -80,11 +80,12 @@
             <div class="card-body detail-switch-nav px-3 py-0">
                 <ul class="list-unstyled mb-0">
                     <li class="active">
-                        <a class="detail-switch-cmt" data-target="ds-cmt" href="#" title="Xem review"><b>200</b> <span>Review</span></a>
+                        <a class="detail-switch-cmt" data-target="ds-cmt" href="#" title="Xem review"><b
+                                th:text="*{ratingCount}"></b> <span>Review</span></a>
                     </li>
                     <li>
-                        <a class="detail-switch-qa" data-target="ds-qa" href="#" title="Xem Q&A"><b>6</b>
-                            <span>Q&A</span></a>
+                        <a class="detail-switch-qa" data-target="ds-qa" href="#" title="Xem Q&A">
+                            <span>Coming soon</span></a>
                     </li>
                 </ul>
             </div>

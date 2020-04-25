@@ -7,10 +7,10 @@
 <body>
 <th:block th:fragment="image(imageName)">
     <th:block th:if="${#arrays.contains(@environment.getActiveProfiles(), 'prod')}">
-        <img th:src="${imageName}"/>
+        <img th:src="@{/content/images/{imageName}(imageName=${imageName})}"/>
     </th:block>
     <th:block th:unless="${#arrays.contains(@environment.getActiveProfiles(), 'prod')}">
-        <img alt="This available in dev mode" th:src="@{/App/images/companies/reviewcongty.png}">
+        <img alt="This available in dev mode" th:src="@{/content/App/images/companies/reviewcongty.png}">
     </th:block>
 </th:block>
 
