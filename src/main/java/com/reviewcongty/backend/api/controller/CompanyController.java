@@ -3,10 +3,13 @@ package com.reviewcongty.backend.api.controller;
 import com.reviewcongty.backend.api.response.PageResponse;
 import com.reviewcongty.backend.api.transform.Transformer;
 import com.reviewcongty.backend.dao.entity.Company;
+import com.reviewcongty.backend.dao.entity.SearchedCompany;
 import com.reviewcongty.backend.service.CompanyService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -31,6 +34,11 @@ public class CompanyController {
     @GetMapping("/{id}")
     public ResponseEntity<Company> findById(@PathVariable String id) {
         return ResponseEntity.ok(companyService.findById(id));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<SearchedCompany>> search(@RequestParam("q") String text) {
+        return ResponseEntity.ok(companyService.searchByName(text));
     }
 
 
