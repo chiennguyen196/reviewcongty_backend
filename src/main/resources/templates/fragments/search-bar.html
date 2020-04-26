@@ -10,66 +10,83 @@
         <h1 class="mb-3 hero-title text-white text-center">
             Review lương bổng, đãi ngộ, HR, tuyển dụng, sếp và công việc,... gì cũng có
         </h1>
-        <form accept-charset="utf-8" action="index_submit" method="get">
-            <div class="company-search-form">
-                <button type="submit"><i class="fa fa-search"></i></button>
-                <input autocomplete="off" class="form-control" name="company-search" placeholder="Tìm công ty"
-                       type="text">
-            </div>
-            <div class="autocomplete-suggestions " style="display: none">
-                <div class="autocomplete-suggestion " data-slug="1shopping-vn" data-val="1shopping.vn">
-                    <figure class="company-logo image is-32x32">
-                        <img src="App/images/companies/1shopping-vn-logo.png">
-                    </figure>
-                    <span class="company-name">1shopping.<b>vn</b></span>
-                </div>
-                <div class="autocomplete-suggestion  " data-slug="3sshopping-vn" data-val="3SShopping.vn">
-                    <figure class="company-logo image is-32x32">
-                        <img src="App/images/companies/3sshopping-vn-logo.png">
-                    </figure>
-                    <span class="company-name">3SShopping.<b>vn</b></span>
-                </div>
-                <div class="autocomplete-suggestion selected" data-slug="alotrip-vn" data-val="AloTrip.vn">
-                    <figure class="company-logo image is-32x32">
-                        <img src="App/images/companies/alotrip-vn-logo.jpg">
-                    </figure>
-                    <span class="company-name">AloTrip.<b>vn</b></span>
-                </div>
-                <div class="autocomplete-suggestion" data-slug="amaha-vn" data-val="Amaha.vn">
-                    <figure class="company-logo image is-32x32">
-                        <img src="App/images/companies/amaha-vn-logo.png">
-                    </figure>
-                    <span class="company-name">Amaha.<b>vn</b></span>
-                </div>
-                <div class="autocomplete-suggestion" data-slug="advn" data-val="ADVN">
-                    <figure class="company-logo image is-32x32">
-                        <img src="App/images/companies/advn-logo.jpg">
-                    </figure>
-                    <span class="company-name">AD<b>VN</b></span>
-                </div>
-                <div class="autocomplete-suggestion" data-slug="avia-vn" data-val="AVIA.VN">
-                    <figure class="company-logo image is-32x32">
-                        <img src="App/images/companies/avia-vn-logo.png">
-                    </figure>
-                    <span class="company-name">AVIA.<b>VN</b></span>
-                </div>
-                <div class="autocomplete-suggestion" data-slug="ascvn" data-val="ASCVN">
-                    <figure class="company-logo image is-32x32">
-                        <img src="App/images/companies/ascvn-logo.png">
-                    </figure>
-                    <span class="company-name">ASC<b>VN</b></span>
-                </div>
-                <div class="autocomplete-suggestion" data-slug="avnon" data-val="AVNON">
-                    <figure class="company-logo image is-32x32">
-                        <img src="App/images/companies/avnon-logo.png">
-                    </figure>
-                    <span class="company-name">A<b>VN</b>ON</span>
-                </div>
-            </div>
-        </form>
+        <div id="search-bar" style="position: relative">
+        </div>
     </div>
     <div class="hero-img__gradient">
     </div>
+    <script type="module">
+        import {h, Component, render} from 'https://unpkg.com/preact?module';
+        import htm from 'https://unpkg.com/htm?module';
+
+        // Initialize htm with Preact
+        const html = htm.bind(h);
+        const isProduct = [[${#arrays.contains(@environment.getActiveProfiles(), 'prod')}]];
+        const baseImageUrl = '[[@{/content/images}]]';
+        const baseHref = '[[@{/}]]';
+
+        const buildImageUrl = imageName => {
+            if (isProduct) {
+                return baseImageUrl + "/" + imageName
+            } else {
+                return '/content/App/images/companies/reviewcongty.png';
+            }
+        };
+
+        class SearchBar extends Component {
+
+            state = {
+                inputText: ''
+            };
+
+            searchTask = undefined;
+
+            onChangeText = e => {
+                const {value} = e.target;
+                this.setState({inputText: value})
+                console.log(this.state.inputText)
+
+                clearTimeout(this.searchTask)
+                this.searchTask = setTimeout(() => {
+                    fetch(`/api/companies/search?q=${value}`)
+                        .then(res => res.json())
+                        .then(companies => this.setState({companies}))
+                }, 1000)
+            };
+
+            handleOnClick = companyId => {
+                window.location.href = baseHref + "companies/" + companyId;
+            };
+
+            componentWillUnmount() {
+                clearTimeout(this.searchTask)
+            }
+
+            render(props, {inputText, companies = []}) {
+                return html`
+                 <div class="company-search-form">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                    <input autocomplete="off" class="form-control" name="company-search" placeholder="Tìm công ty" type="text"
+                    value=${inputText} onInput=${this.onChangeText}
+                    />
+                </div>
+                <div class="autocomplete-suggestions" id="search-result">
+                    ${companies.map(company => html`
+                        <div class="autocomplete-suggestion " onclick=${()=>this.handleOnClick(company.id)} >
+                            <figure class="company-logo image is-32x32">
+                                <img src=${buildImageUrl(company.imageName)} />
+                            </figure>
+                            <span class="company-name">${company.name}</span>
+                        </div>
+                    `)}
+
+                </div>`;
+            }
+        }
+
+        render(html`<${SearchBar} />`, document.getElementById("search-bar"));
+    </script>
+
 </section>
 </body>
 </html>
