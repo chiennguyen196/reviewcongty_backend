@@ -9,7 +9,7 @@
 <div class="tabs-section" th:fragment="company-list(items)">
     <!-- ListView -->
     <th:block th:each="item : ${items}" th:object="${item}">
-        <div class="company-item" data-href="detail.html">
+        <div class="company-item" th:attr="data-href='/companies/' + *{id}">
             <div class="company-info">
                 <figure class="company-info__logo image is-64x64">
                     <th:block th:insert="~{fragments/general :: image(*{imageName})}"></th:block>
