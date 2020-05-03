@@ -60,30 +60,16 @@ jQuery(document).ready(function() {
         jQuery(this).hide();
     });
 
-    let latestSearchJob;
-    // jQuery(document).on('input', '.company-search-form .form-control', function(){
-    //     let val = jQuery(this).val();
-    //
-    //
-    //     // clearTimeout(latestSearchJob);
-    //     //
-    //     // if (!val) {
-    //     //     return
-    //     // }
-    //     //
-    //     // latestSearchJob = setTimeout(function () {
-    //     //     $.ajax(`/api/companies/search?q=${val}`, function (result) {
-    //     //
-    //     //     })
-    //     // }, 1000)
-    //
-    //
-    //     if(val!==""){
-    //         jQuery(this).closest('.company-search-form').next('.autocomplete-suggestions').show();
-    //     }else{
-    //         jQuery(this).closest('.company-search-form').next('.autocomplete-suggestions').hide();
-    //     }
-    // });
+    // Search bar focus setting
+    $('#search-bar .company-search-form input').focus(function(){
+        $('#search-bar .autocomplete-suggestions').show();
+    });
+
+    $('#search-bar .company-search-form input').blur(function(){
+        $('#search-bar .autocomplete-suggestions').hide();
+    });
+
+
     //Back to top
     $('.cd-top').click(function() {
         $('body,html').animate({
