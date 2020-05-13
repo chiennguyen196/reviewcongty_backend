@@ -15,7 +15,7 @@
     </div>
     <div class="hero-img__gradient">
     </div>
-    <script type="module">
+    <script defer type="module">
         import {h, Component, render} from 'https://unpkg.com/preact?module';
         import htm from 'https://unpkg.com/htm?module';
 
@@ -43,10 +43,10 @@
 
             onChangeText = e => {
                 const {value} = e.target;
-                this.setState({inputText: value})
-                console.log(this.state.inputText)
+                this.setState({inputText: value});
+                console.log(this.state.inputText);
 
-                clearTimeout(this.searchTask)
+                clearTimeout(this.searchTask);
                 this.searchTask = setTimeout(() => {
                     fetch(`/api/companies/search?q=${value}`)
                         .then(res => res.json())
