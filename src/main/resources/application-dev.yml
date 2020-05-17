@@ -12,10 +12,8 @@ spring:
 
   data:
     mongodb:
-      host: 103.130.219.40
+      host: localhost
       port: 27017
-      username: chien
-      password: password123
       database: reviewcongty
 
 logging:
