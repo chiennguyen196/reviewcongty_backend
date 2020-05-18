@@ -10,7 +10,7 @@
         <th:block th:each="review : ${recentlyReviews}">
             <div class="review mb-3 border-bottom">
                 <h4 class="mb-0 font-normal">
-                    <span class="font-bold"><span th:remove="tag" th:text="${review.name}"></span>
+                    <span class="font-bold"><span th:remove="tag" th:text="${review.name} ?: 'Ẩn danh'"></span>
                     </span> đã review
                     <a class="text-main" th:href="@{/companies/{id}(id=${review.companyId})}">
                         <span th:remove="tag" th:text="${review.companyName}"></span>

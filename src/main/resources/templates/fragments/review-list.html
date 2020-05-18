@@ -12,9 +12,12 @@
             <header class="border-0 card-header px-3 py-2 d-flex flex-column align-items-start justify-content-between">
                 <p class="card-header-title mb-0">
                     <b class="mr-2">
-                        <th:block th:text="*{name}"></th:block>
-                        -
-                        <th:block th:text="*{position}"></th:block>
+                        <th:block th:text="*{name} ?: 'Ẩn danh'"></th:block>
+                        <th:block th:if="*{position}">
+                            -
+                            <th:block th:text="*{position}"></th:block>
+                        </th:block>
+
                     </b>
                     <span>
                     <th:block th:insert="~{fragments/rating-bar :: rating-bar(*{rating})}"></th:block>
