@@ -1,6 +1,6 @@
-package com.reviewcongty.backend.dao.repo;
+package com.reviewcongty.backend.core.dao.repo;
 
-import com.reviewcongty.backend.dao.entity.Review;
+import com.reviewcongty.backend.core.dao.entity.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;

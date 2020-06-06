@@ -1,7 +1,7 @@
-package com.reviewcongty.backend.service;
+package com.reviewcongty.backend.core.service;
 
-import com.reviewcongty.backend.dao.entity.Company;
-import com.reviewcongty.backend.dao.entity.SearchedCompany;
+import com.reviewcongty.backend.core.dao.entity.Company;
+import com.reviewcongty.backend.core.dao.entity.SearchedCompany;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

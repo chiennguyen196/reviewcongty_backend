@@ -1,4 +1,4 @@
-package com.reviewcongty.backend.dao.entity;
+package com.reviewcongty.backend.core.dao.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

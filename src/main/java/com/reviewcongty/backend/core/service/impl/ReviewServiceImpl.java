@@ -1,11 +1,11 @@
-package com.reviewcongty.backend.service.impl;
+package com.reviewcongty.backend.core.service.impl;
 
 import com.reviewcongty.backend.api.request.ReviewRequest;
-import com.reviewcongty.backend.dao.entity.Company;
-import com.reviewcongty.backend.dao.entity.Review;
-import com.reviewcongty.backend.dao.repo.CompanyRepository;
-import com.reviewcongty.backend.dao.repo.ReviewRepository;
-import com.reviewcongty.backend.service.ReviewService;
+import com.reviewcongty.backend.core.dao.entity.Company;
+import com.reviewcongty.backend.core.dao.entity.Review;
+import com.reviewcongty.backend.core.dao.repo.CompanyRepository;
+import com.reviewcongty.backend.core.dao.repo.ReviewRepository;
+import com.reviewcongty.backend.core.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
