@@ -1,5 +1,6 @@
 package com.reviewcongty.backend.core.service.impl;
 
+import com.reviewcongty.backend.api.request.ReactRequest;
 import com.reviewcongty.backend.api.request.ReplyRequest;
 import com.reviewcongty.backend.api.request.ReviewRequest;
 import com.reviewcongty.backend.core.dao.entity.Company;
@@ -94,6 +95,28 @@ public class ReviewServiceImpl implements ReviewService {
 
         return reviewRepository.save(review);
 
+    }
+
+    @Override
+    public Review react(String reviewId, ReactRequest request) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(()
+                        -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found review with id: " + reviewId));
+        switch (request.getReaction()) {
+            case Reaction.LIKE:
+                increaseLike(review);
+                break;
+            case Reaction.DISLIKE:
+                increaseDislike(review);
+                break;
+            case Reaction.SHOULD_DELETE:
+                increaseDeleteRequests(review);
+                break;
+            default:
+                log.warn("Reaction {} is invalid", request.getReaction());
+                return review;
+        }
+        return reviewRepository.save(review);
     }
 
     private void increaseLike(Review review) {

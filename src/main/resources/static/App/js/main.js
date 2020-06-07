@@ -1,6 +1,6 @@
 //BODY PADDING TOP
 function body_padding_top() {
-    jQuery("#site-content").css("padding-top", parseInt(jQuery("header").outerHeight()));
+    $("#site-content").css("padding-top", parseInt($("header").outerHeight()));
 
 }
 
@@ -8,9 +8,10 @@ function body_padding_top() {
 var hT = $('.header-top').outerHeight();
 var hH = $('.header').outerHeight();
 $('.fix-header').css('height', hH);
+
 function sticky_header() {
     var wH = $(window).height(),
-        wS = jQuery(window).scrollTop();
+        wS = $(window).scrollTop();
     if (wS > hT) {
         $('header').addClass('sticky');
         $('.fix-header').css('display', 'block');
@@ -23,35 +24,48 @@ function sticky_header() {
 
 
 //--DOCUMENT READY FUNCTION BEGIN
-jQuery(document).ready(function () {
+$(document).ready(function () {
 
-    jQuery(document).on('click', '.company-item', function () {
-        var url = jQuery(this).attr('data-href');
+    $(document).on('click', '.company-item', function () {
+        var url = $(this).attr('data-href');
         if (typeof url !== typeof undefined && url !== false) {
             window.location.href = url;
         }
     });
 
-    var reaction = '';
+
     var reviewId = '';
-    jQuery(document).on('click', '.link-comment', function (e) {
+    $(document).on('click', '.link-comment', function (e) {
         e.preventDefault();
-        reaction = jQuery(this).attr('data-reaction');
-        reviewId = jQuery(this).attr('review-id');
-        console.log(reaction);
+        reviewId = $(this).attr('review-id');
         console.log(reviewId);
         $('#Write-comment').modal();
     });
-    $('#Write-comment').on('show.bs.modal', function (e) {
-        jQuery('#review-reaction').find('option[value="' + reaction + '"]').prop("selected", true);
-        jQuery('#review-id').val(reviewId);
+    var reaction = '';
+    $(document).on('click', '.link-reaction', function (e) {
+        e.preventDefault();
+        reaction = $(this).attr('data-reaction');
+        reviewId = $(this).attr('review-id');
+        console.log(reaction);
+        console.log(reviewId);
+        $('#Reaction-review').modal();
     });
 
-    jQuery(document).on('click', '.see-more__btn', function (e) {
+    $('#Write-comment').on('show.bs.modal', function (e) {
+        $('#review-reaction').find('option[value="' + reaction + '"]').prop("selected", true);
+        $('#Write-comment form input[name="review-id"]').val(reviewId);
+    });
+
+    $('#Reaction-review').on('show.bs.modal', function (e) {
+        $('#Reaction-review form input[name="review-id"]').val(reviewId);
+        $('#Reaction-review form input[name="reaction"]').val(reaction);
+    });
+
+    $(document).on('click', '.see-more__btn', function (e) {
         e.preventDefault();
-        jQuery(this).next('.see-more__expand').show();
-        jQuery(this).prev('.see-more__dots').hide();
-        jQuery(this).hide();
+        $(this).next('.see-more__expand').show();
+        $(this).prev('.see-more__dots').hide();
+        $(this).hide();
     });
 
     // Search bar focus setting
@@ -71,22 +85,22 @@ jQuery(document).ready(function () {
         }, 800);
         return false;
     });
-    jQuery('.language-toolbox .language-selector').click(function (e) {
+    $('.language-toolbox .language-selector').click(function (e) {
         e.preventDefault();
-        jQuery(this).parents(".language-toolbox").toggleClass("active");
+        $(this).parents(".language-toolbox").toggleClass("active");
     });
 
 });
 //--DOCUMENT READY FUNCTION END
 
 //--WINDOW LOADED FUNCTION BEGIN
-jQuery(window).bind("load", function () {
+$(window).bind("load", function () {
 
 });
 //--WINDOW LOADED FUNCTION END
 
 //--WINDOW RESIZE FUNCTION BEGIN
-jQuery(window).resize(function () {
+$(window).resize(function () {
 
 });
 

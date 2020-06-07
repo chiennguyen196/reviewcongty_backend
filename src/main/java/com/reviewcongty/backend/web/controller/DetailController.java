@@ -37,6 +37,6 @@ public class DetailController {
         model.addAttribute("company", company);
         model.addAttribute("reviewPage", reviewPage);
 
-        return "company-detail";
+        return "company-reviews";
     }
 }

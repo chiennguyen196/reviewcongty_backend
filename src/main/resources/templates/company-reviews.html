@@ -179,7 +179,7 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <form id="write-reply-form">
-                            <input id="review-id" name="review-id" type="hidden" value="">
+                            <input name="review-id" type="hidden" value="">
                             <div class="form-group">
                                 <label class="font-bold" for="name">Tên họ</label>
                                 <input class="form-control" id="name" name="name"
@@ -211,6 +211,29 @@
                         <button class="btn btn-secondary" data-dismiss="modal" type="button">Hủy bỏ</button>
                         <button class="btn btn-primary" onclick="handleCreateNewReply()" type="button">Đăng comment
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal #Reaction-review -->
+        <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="Reaction-review"
+             role="dialog"
+             tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form>
+                            <input name="review-id" type="hidden" value=""/>
+                            <input name="reaction" type="hidden" value=""/>
+                            <div class="form-group">
+                                <div class="g-recaptcha"
+                                     th:data-sitekey="${@environment.getProperty('google.recaptcha.site-key')}"></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Hủy bỏ</button>
+                        <button class="btn btn-primary" onclick="handleReaction()" type="button">Thả reaction</button>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 package com.reviewcongty.backend.api.controller;
 
+import com.reviewcongty.backend.api.request.ReactRequest;
 import com.reviewcongty.backend.api.request.ReplyRequest;
 import com.reviewcongty.backend.api.request.ReviewRequest;
 import com.reviewcongty.backend.core.dao.entity.Review;
@@ -40,6 +41,13 @@ public class ReviewController {
     public ResponseEntity<Review> reply(@PathVariable("review-id") String reviewId,
                                         @Valid @RequestBody ReplyRequest request) {
         Review review = reviewService.reply(reviewId, request);
+        return ResponseEntity.ok(review);
+    }
+
+    @PostMapping("/{review-id}/react")
+    public ResponseEntity<Review> react(@PathVariable("review-id") String reviewId,
+                                        @Valid @RequestBody ReactRequest request) {
+        Review review = reviewService.react(reviewId, request);
         return ResponseEntity.ok(review);
     }
 }

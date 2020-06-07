@@ -46,7 +46,7 @@
                             </i>
                         </span> Reply
                     </a>
-                    <a class="link-comment card-footer-item clickable" data-id=""
+                    <a class="link-reaction card-footer-item clickable" data-id=""
                        data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"
                        href="#" th:review-id="*{id}">
                         <th:block th:text="*{numLikes}"></th:block>
@@ -55,7 +55,7 @@
                             </i>
                         </span>
                     </a>
-                    <a class="link-comment card-footer-item clickable" data-id=""
+                    <a class="link-reaction card-footer-item clickable" data-id=""
                        data-prefill="Review nhảm nhí, dislike" data-reaction="DISLIKE"
                        href="#" th:review-id="*{id}">
                         <th:block th:text="*{numDislikes}"></th:block>
@@ -64,7 +64,7 @@
                             </i>
                         </span>
                     </a>
-                    <a class="link-comment card-footer-item clickable" data-id="" data-prefill="Xóa review này giùm!"
+                    <a class="link-reaction card-footer-item clickable" data-id="" data-prefill="Xóa review này giùm!"
                        data-reaction="SHOULD_DELETE" href="#" th:review-id="*{id}">
                         <th:block th:text="*{numDeleteRequests}"></th:block>
                         <span class="icon-ban ic">

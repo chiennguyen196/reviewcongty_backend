@@ -1,3 +1,5 @@
+var NOT_PASS_CAPCHA_MESSAGE = "Bạn phải vượt qua recaptcha!";
+
 function getFormData($form) {
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};
@@ -50,7 +52,7 @@ function handleSubmitWriteNewReview() {
 
     // verify data
     if (!gRecaptchaResponse) {
-        alert("Bạn phải vượt qua recaptcha!")
+        alert(NOT_PASS_CAPCHA_MESSAGE)
         return;
     }
 
@@ -106,7 +108,7 @@ function handleCreateNewReply() {
 
     // verify data
     if (!gRecaptchaResponse) {
-        alert("Bạn phải vượt qua recaptcha!")
+        alert(NOT_PASS_CAPCHA_MESSAGE)
         return;
     }
 
@@ -130,6 +132,44 @@ function handleCreateNewReply() {
         data: JSON.stringify({
             "name": name,
             "content": content,
+            "reaction": reaction
+        }),
+        dataType: 'json'
+
+    }).done(function (response) {
+        console.log(response);
+        window.location.reload();
+    }).fail(function (response) {
+        handleErrorResponse(response)
+    }).always(function () {
+        resetAllRecaptcha()
+    })
+}
+
+function handleReaction() {
+    var $writeReplyForm = $("#Reaction-review form");
+
+    var formData = getFormData($writeReplyForm);
+
+    var gRecaptchaResponse = formData['g-recaptcha-response'];
+    var reviewId = formData['review-id'];
+    var reaction = formData['reaction'];
+
+    // verify data
+    if (!gRecaptchaResponse) {
+        alert(NOT_PASS_CAPCHA_MESSAGE)
+        return;
+    }
+
+    // send data
+    $.ajax({
+        url: "/api/companies/not-used/reviews/" + reviewId + "/react",
+        type: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'g-recaptcha-response': gRecaptchaResponse
+        },
+        data: JSON.stringify({
             "reaction": reaction
         }),
         dataType: 'json'
