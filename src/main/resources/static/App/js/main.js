@@ -33,15 +33,18 @@ jQuery(document).ready(function () {
     });
 
     var reaction = '';
+    var reviewId = '';
     jQuery(document).on('click', '.link-comment', function (e) {
         e.preventDefault();
         reaction = jQuery(this).attr('data-reaction');
+        reviewId = jQuery(this).attr('review-id');
         console.log(reaction);
+        console.log(reviewId);
         $('#Write-comment').modal();
     });
     $('#Write-comment').on('show.bs.modal', function (e) {
         jQuery('#review-reaction').find('option[value="' + reaction + '"]').prop("selected", true);
-
+        jQuery('#review-id').val(reviewId);
     });
 
     jQuery(document).on('click', '.see-more__btn', function (e) {

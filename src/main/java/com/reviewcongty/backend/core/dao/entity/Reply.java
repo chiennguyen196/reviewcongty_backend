@@ -8,5 +8,6 @@ import java.util.Date;
 public class Reply {
     private String name;
     private String content;
+    private String reaction;
     private Date created;
 }

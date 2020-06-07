@@ -61,7 +61,8 @@
     .company-info__other span, .company-info__location {
         font-size: 13px;
     }
-    .card-footer-action > a[data-reaction="DELETE"] {
+
+    .card-footer-action > a[data-reaction="SHOULD_DELETE"] {
         margin-left: 0;
     }
 }

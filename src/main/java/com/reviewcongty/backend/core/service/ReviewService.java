@@ -1,5 +1,6 @@
 package com.reviewcongty.backend.core.service;
 
+import com.reviewcongty.backend.api.request.ReplyRequest;
 import com.reviewcongty.backend.api.request.ReviewRequest;
 import com.reviewcongty.backend.core.dao.entity.Review;
 import org.springframework.data.domain.Page;
@@ -11,4 +12,6 @@ public interface ReviewService {
     List<Review> getRecentlyReviews(int limit);
 
     Review create(String companyId, ReviewRequest request);
+
+    Review reply(String reviewId, ReplyRequest request);
 }

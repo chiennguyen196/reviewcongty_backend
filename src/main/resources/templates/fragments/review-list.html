@@ -39,16 +39,16 @@
             </div>
             <footer class="card-footer px-3 py-2 border-0 d-flex justify-content-between align-items-center">
                 <div class="card-footer-action">
-                    <a class="link-comment card-footer-item clickable" data-id="" data-prefill="" data-reaction="LIKE"
-                       href="#">
-                                                <span class="icon-reply ic text-info">
-                                                    <i class="fa fa-commenting">
-                                                    </i>
-                                                </span> Reply
+                    <a class="link-comment card-footer-item clickable" data-id="" data-prefill=""
+                       data-reaction="" href="#" th:review-id="*{id}">
+                        <span class="icon-reply ic text-info">
+                            <i class="fa fa-commenting">
+                            </i>
+                        </span> Reply
                     </a>
                     <a class="link-comment card-footer-item clickable" data-id=""
                        data-prefill="Bác nói đúng vãi, tặng 1 like" data-reaction="LIKE"
-                       href="#">
+                       href="#" th:review-id="*{id}">
                         <th:block th:text="*{numLikes}"></th:block>
                         <span class="icon-like ic text-success">
                             <i class="fa fa-thumbs-up">
@@ -56,8 +56,8 @@
                         </span>
                     </a>
                     <a class="link-comment card-footer-item clickable" data-id=""
-                       data-prefill="Review nhảm nhí, dislike" data-reaction="HATE"
-                       href="#">
+                       data-prefill="Review nhảm nhí, dislike" data-reaction="DISLIKE"
+                       href="#" th:review-id="*{id}">
                         <th:block th:text="*{numDislikes}"></th:block>
                         <span class="icon-dislike ic text-danger">
                             <i class="fa fa-thumbs-down">
@@ -65,8 +65,7 @@
                         </span>
                     </a>
                     <a class="link-comment card-footer-item clickable" data-id="" data-prefill="Xóa review này giùm!"
-                       data-reaction="DELETE"
-                       href="#">
+                       data-reaction="SHOULD_DELETE" href="#" th:review-id="*{id}">
                         <th:block th:text="*{numDeleteRequests}"></th:block>
                         <span class="icon-ban ic">
                             <i class="fa fa-close text-danger">
@@ -79,7 +78,17 @@
                 <th:block th:each="reply : ${item.replies}">
                     <div class="comment">
                         <p class="comment__title">
-                            <span class="font-bold" th:text="${reply.name}"> </span>
+                            <span>
+                                <span class="font-bold"
+                                      th:text="${reply.name ?: 'Ẩn danh'}">
+                                </span>
+                                <span th:if="${reply.reaction} eq 'LIKE'"> đã 👍 Like
+                                </span>
+                                <span th:if="${reply.reaction} eq 'DISLIKE'"> đã 👎 Đếch lai
+                                </span>
+                                <span th:if="${reply.reaction} eq 'SHOULD_DELETE'"> đã ❌ Yêu cầu xóa
+                                </span>
+                            </span>
                             <span class="text-muted rv-cmt-time"
                                   th:text="${T(com.reviewcongty.backend.web.util.TimeUtils).getRelativeTime(reply.created)}"></span>
                         </p>

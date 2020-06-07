@@ -177,31 +177,28 @@
              tabindex="-1">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header p-0">
-                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
                     <div class="modal-body">
-                        <form>
+                        <form id="write-reply-form">
+                            <input id="review-id" name="review-id" type="hidden" value="">
                             <div class="form-group">
                                 <label class="font-bold" for="name">Tên họ</label>
-                                <input class="form-control" id="name"
+                                <input class="form-control" id="name" name="name"
                                        placeholder="Muốn xưng tên thật thì xưng không thì thui" type="text" value="">
                             </div>
                             <div class="form-group">
                                 <label class="font-bold" for="DETAIL">Comment <span
                                         class="text-danger">(Bắt buộc)</span></label>
-                                <textarea class="form-control" id="DETAIL"
+                                <textarea class="form-control" id="DETAIL" name="content"
                                           placeholder="Bức xúc hay gì thì viết dài dài vô (Tối thiểu 10 kí tự)."
                                           rows="3"></textarea>
                             </div>
                             <div class="form-group">
                                 <label class="font-bold" for="review-reaction">Bày tỏ thái độ</label>
-                                <select class="form-control" id="review-reaction">
-                                    <option selected="" value="LIKE">👍 Like</option>
-                                    <option value="HATE">👎 Đếch lai</option>
-                                    <option value="DELETE">❌ Xóa giùm</option>
+                                <select class="form-control" id="review-reaction" name="reaction">
+                                    <option selected="" value="">😐 Không cảm xúc</option>
+                                    <option value="LIKE">👍 Like</option>
+                                    <option value="DISLIKE">👎 Đếch lai</option>
+                                    <option value="SHOULD_DELETE">❌ Xóa giùm</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -212,7 +209,8 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" data-dismiss="modal" type="button">Hủy bỏ</button>
-                        <button class="btn btn-primary" type="button">Đăng comment</button>
+                        <button class="btn btn-primary" onclick="handleCreateNewReply()" type="button">Đăng comment
+                        </button>
                     </div>
                 </div>
             </div>

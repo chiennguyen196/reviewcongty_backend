@@ -15,6 +15,25 @@ function resetAllRecaptcha() {
         grecaptcha.reset(i);
 }
 
+function handleErrorResponse(response) {
+    if (response.status === 400) {
+        var errorMessage = "Bad request\n";
+        if (response.hasOwnProperty("responseJSON")) {
+            if (response.responseJSON.hasOwnProperty("errors")) {
+                response.responseJSON.errors.forEach(function (e) {
+                    errorMessage += e.defaultMessage + "\n";
+                });
+            }
+            if (response.responseJSON.hasOwnProperty("message")) {
+                errorMessage += response.responseJSON.message
+            }
+        }
+        alert(errorMessage)
+    } else {
+        alert("Có lỗi xảy ra!")
+    }
+}
+
 function handleSubmitWriteNewReview() {
     var $writeReviewForm = $("#write-review-form");
 
@@ -68,24 +87,59 @@ function handleSubmitWriteNewReview() {
         console.log(response);
         window.location.reload();
     }).fail(function (response) {
-        if (response.status === 400) {
-            var errorMessage = "Bad request\n";
-            if (response.hasOwnProperty("responseJSON")) {
-                if (response.responseJSON.hasOwnProperty("errors")) {
-                    response.responseJSON.errors.forEach(function (e) {
-                        errorMessage += e.defaultMessage + "\n";
-                    });
-                }
-                if (response.responseJSON.hasOwnProperty("message")) {
-                    errorMessage += response.responseJSON.message
-                }
-            }
-            alert(errorMessage)
-        } else {
-            alert("Có lỗi xảy ra!")
-        }
+        handleErrorResponse(response)
     }).always(function () {
         resetAllRecaptcha()
     })
+}
 
+function handleCreateNewReply() {
+    var $writeReplyForm = $("#write-reply-form");
+
+    var formData = getFormData($writeReplyForm);
+
+    var gRecaptchaResponse = formData['g-recaptcha-response'];
+    var reviewId = formData['review-id'];
+    var name = formData['name'];
+    var content = formData['content'];
+    var reaction = formData['reaction'];
+
+    // verify data
+    if (!gRecaptchaResponse) {
+        alert("Bạn phải vượt qua recaptcha!")
+        return;
+    }
+
+    if (!content || content.length < 10) {
+        alert("Nội dung phải có độ dài hơn 10 ký tự");
+        return;
+    }
+
+    if (!name) {
+        name = null;
+    }
+
+    // send data
+    $.ajax({
+        url: "/api/companies/not-used/reviews/" + reviewId + "/reply",
+        type: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'g-recaptcha-response': gRecaptchaResponse
+        },
+        data: JSON.stringify({
+            "name": name,
+            "content": content,
+            "reaction": reaction
+        }),
+        dataType: 'json'
+
+    }).done(function (response) {
+        console.log(response);
+        window.location.reload();
+    }).fail(function (response) {
+        handleErrorResponse(response)
+    }).always(function () {
+        resetAllRecaptcha()
+    })
 }

@@ -1151,6 +1151,7 @@ body .text-hover-main:hover{
 .detail-switch-nav ul li {
     width: 50%;
 }
-.card-footer-action > a[data-reaction="DELETE"] {
+
+.card-footer-action > a[data-reaction="SHOULD_DELETE"] {
     margin-left: auto;
 }
