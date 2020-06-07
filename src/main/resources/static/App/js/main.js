@@ -57,7 +57,7 @@ jQuery(document).ready(function () {
     });
 
     $('#search-bar .company-search-form input').blur(function () {
-        $('#search-bar .autocomplete-suggestions').hide();
+        $('#search-bar .autocomplete-suggestions').hide(1000);
     });
 
 

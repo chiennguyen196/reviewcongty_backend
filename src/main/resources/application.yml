@@ -5,3 +5,8 @@ spring:
 
   mvc:
     static-path-pattern: /content/**
+
+google:
+  recaptcha:
+    site-key:
+    secret-key:
