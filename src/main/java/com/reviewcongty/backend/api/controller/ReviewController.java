@@ -1,8 +1,8 @@
 package com.reviewcongty.backend.api.controller;
 
 import com.reviewcongty.backend.api.request.ReviewRequest;
-import com.reviewcongty.backend.dao.entity.Review;
-import com.reviewcongty.backend.service.ReviewService;
+import com.reviewcongty.backend.core.dao.entity.Review;
+import com.reviewcongty.backend.core.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

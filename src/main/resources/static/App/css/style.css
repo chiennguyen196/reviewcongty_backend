@@ -297,10 +297,7 @@ body .text-hover-main:hover{
     justify-content: center;
     align-items: center;
 }
-.modal-content {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-}
+
 .modal-header {
     position: relative;
     padding: 1.5rem 2rem;
@@ -308,6 +305,8 @@ body .text-hover-main:hover{
 
 .modal-body {
     padding: 1.5rem 2rem;
+    overflow: auto;
+    height: 67vh;
 }
 
 .modal-header .close {

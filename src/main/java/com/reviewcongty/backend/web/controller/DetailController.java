@@ -1,9 +1,9 @@
 package com.reviewcongty.backend.web.controller;
 
-import com.reviewcongty.backend.dao.entity.Company;
-import com.reviewcongty.backend.dao.entity.Review;
-import com.reviewcongty.backend.service.CompanyService;
-import com.reviewcongty.backend.service.ReviewService;
+import com.reviewcongty.backend.core.dao.entity.Company;
+import com.reviewcongty.backend.core.dao.entity.Review;
+import com.reviewcongty.backend.core.service.CompanyService;
+import com.reviewcongty.backend.core.service.ReviewService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -2,9 +2,9 @@ package com.reviewcongty.backend.api.controller;
 
 import com.reviewcongty.backend.api.response.PageResponse;
 import com.reviewcongty.backend.api.transform.Transformer;
-import com.reviewcongty.backend.dao.entity.Company;
-import com.reviewcongty.backend.dao.entity.SearchedCompany;
-import com.reviewcongty.backend.service.CompanyService;
+import com.reviewcongty.backend.core.dao.entity.Company;
+import com.reviewcongty.backend.core.dao.entity.SearchedCompany;
+import com.reviewcongty.backend.core.service.CompanyService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

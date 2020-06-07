@@ -20,4 +20,10 @@ logging:
   level:
     org.springframework.web: DEBUG
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    com.reviewcongty.backend: DEBUG
+
+google:
+  recaptcha:
+    site-key: 6LdxtvkUAAAAAPXKazewNm-_MmkNpCyt8Y7liizk
+    secret-key: 6LdxtvkUAAAAAEtgEU3kz4pIzc9P5-YmLDQ4h3gi
 
