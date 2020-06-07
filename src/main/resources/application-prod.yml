@@ -11,3 +11,8 @@ spring:
       - file:/home/chiennm/public/
       - classpath:/static/
       - classpath:/public/
+
+google:
+  recaptcha:
+    site-key: 6LfXFgEVAAAAAGytifrzgioMdnu30K3Vbo-0pjaM
+    secret-key: 6LfXFgEVAAAAABY9wKMIa9GbJyGbXbOQGC8Vq8Yp
