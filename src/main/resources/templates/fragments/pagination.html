@@ -9,8 +9,10 @@
     <nav aria-label="pagination"
          class="pagination is-small custom-pagination d-flex flex-column flex-md-row align-items-center align-items-md-center justify-content-center justify-content-md-between"
          role="navigation">
-            <span class="pagination-summary">Trang <b class="text-dark"><span th:remove="tag" th:text="${page}"></span>
-            </b> trên tổng số <b class="text-dark"><span th:remove="tag" th:text="${totalPages}"></span></b> </span>
+            <span class="pagination-summary">[[#{pagination.page}]] <b class="text-dark"><span th:remove="tag"
+                                                                                               th:text="${page}"></span>
+            </b> [[#{pagination.of}]] <b class="text-dark"><span th:remove="tag"
+                                                                 th:text="${totalPages}"></span></b> </span>
         <ul class="pagination-list" th:if="${totalPages > 1}">
             <th:block
                     th:each="pageNumber : ${T(com.reviewcongty.backend.web.util.Pagination).getPageNumbers(page, totalPages)}">

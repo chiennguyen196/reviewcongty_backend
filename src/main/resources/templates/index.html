@@ -8,7 +8,11 @@
       xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>Review công ty - Trang chủ</title>
+    <title>
+        <th:block th:text="#{website.name}"></th:block>
+        -
+        <th:block th:text="#{homepage}"></th:block>
+    </title>
 </head>
 
 <body>
@@ -28,14 +32,16 @@
                                                             <span class="ic text-info">
                                                                 <i class="fa fa-comments">
                                                                 </i>
-                                                            </span> Mới cập nhật
+                                                            </span>
+                                            <th:block th:text="#{tab.latest}"></th:block>
                                         </a>
                                     </li>
                                     <li class="tab" th:class="${tab == 'drama'} ? is-active">
                                         <a class="font-bold text-dark" th:href="@{/(tab='drama')}">
                                                             <span class="ic text-warning">
                                                                 <i class="fa fa-fire"></i>
-                                                            </span> Top drama
+                                                            </span>
+                                            <th:block th:text="#{tab.drama}"></th:block>
                                         </a>
                                     </li>
                                     <li class="tab" th:class="${tab == 'best'} ? is-active">
@@ -43,7 +49,8 @@
                                                             <span class="ic text-success">
                                                                 <i class="fa fa-thumbs-up">
                                                                 </i>
-                                                            </span> Top công ty xịn
+                                                            </span>
+                                            <th:block th:text="#{tab.best}"></th:block>
                                         </a>
                                     </li>
                                     <li class="tab" th:class="${tab == 'worst'} ? is-active">
@@ -51,7 +58,8 @@
                                                             <span class="ic text-danger">
                                                                 <i class="fa fa-thumbs-down">
                                                                 </i>
-                                                            </span> Top công ty bựa
+                                                            </span>
+                                            <th:block th:text="#{tab.worst}"></th:block>
                                         </a>
                                     </li>
                                 </ul>

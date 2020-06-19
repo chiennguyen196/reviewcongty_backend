@@ -8,7 +8,9 @@
       xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>Review công ty
+    <title>
+        <th:block th:text="#{website.name}"></th:block>
+        -
         <th:block th:text="${company.name}"></th:block>
     </title>
     <th:block id="static-resources">
@@ -22,8 +24,8 @@
     <div class="page-title mt--4">
         <div class="container">
             <ol class="breadcrumb bg-transparent m-0 px-0 py-3">
-                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-                <li class="breadcrumb-item active">Review Công ty FSI</li>
+                <li class="breadcrumb-item"><a href="/">[[#{homepage}]]</a></li>
+                <li class="breadcrumb-item active">[[#{company.review}]] [[${company.name}]]</li>
             </ol>
         </div>
     </div>
@@ -70,11 +72,12 @@
                         <a class="mb-0 mb-sm-2 mb-md-0 font-normal btn btn-success rounded-circle button-review"
                            data-target="#Write-review"
                            data-toggle="modal" href="#">
-                            <span class="ic"> <i class="fa fa-pencil"></i> </span> <span>Viết review</span>
+                            <span class="ic"> <i class="fa fa-pencil"></i> </span> <span>[[#{review.write}]]</span>
                         </a>
                         <a class="mb-0 mb-sm-0 mb-md-0 font-normal btn btn-outline-secondary rounded-circle button-subscribe"
                            href="#">
-                            <span class="ic"> <i class="fa fa-bell-o"></i> </span> <span>Nhận thông báo</span>
+                            <span class="ic"> <i class="fa fa-bell-o"></i> </span>
+                            <span>[[#{review.get_notifications}]]</span>
                         </a>
                     </div>
                 </div>
@@ -85,8 +88,9 @@
             <div class="card-body detail-switch-nav px-3 py-0">
                 <ul class="list-unstyled mb-0">
                     <li class="active">
-                        <a class="detail-switch-cmt" data-target="ds-cmt" href="#" title="Xem review">
-                            <span>Reviews</span>
+                        <a class="detail-switch-cmt" data-target="ds-cmt" href="#"
+                           th:title="#{company.tab.review.title}">
+                            <span>[[#{company.tab.review}]]</span>
                         </a>
                     </li>
                     <li>
@@ -116,37 +120,38 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title text-center" id="">Viết review công ty
-                            <th:block th:text="${company.name}"></th:block>
+                        <h5 class="modal-title text-center" id="">
+                            [[#{review.form.write_review}]] [[${company.name}]]
                         </h5>
                     </div>
                     <div class="modal-body">
                         <form id="write-review-form" method="post"
                               th:action="@{/api/companies/{id}/reviews(id=${company.id})}">
                             <div class="form-group">
-                                <label class="font-bold" for="name">Tên họ</label>
+                                <label class="font-bold" for="name">[[#{review.form.field.name}]]</label>
                                 <input class="form-control" name="name"
-                                       placeholder="Muốn xưng tên thật thì xưng không thì thui" type="text"/>
+                                       th:placeholder="#{review.form.field.name.placeholder}" type="text"/>
                             </div>
                             <div class="form-group">
-                                <label class="font-bold" for="position">Chức vụ</label>
+                                <label class="font-bold" for="position">[[#{review.form.field.position}]]</label>
                                 <input class="form-control" id="position" name="position"
-                                       placeholder="Dev quèn / HR hay Manager"/>
+                                       th:placeholder="#{review.form.field.position.placeholder}"/>
                             </div>
                             <div class="form-group">
-                                <label class="font-bold" for="DETAIL">Review công ty <span class="text-danger">(Bắt buộc)</span></label>
+                                <label class="font-bold" for="DETAIL">[[#{review.form.field.content}]] <span
+                                        class="text-danger">([[#{form.required}]])</span></label>
                                 <textarea class="form-control" name="content"
-                                          placeholder="Bức xúc hay gì thì viết dài dài vô (Tối thiểu 10 kí tự). Nếu muốn xin review, cứ bấm nút [Nhận thông báo] nha!!"
+                                          th:placeholder="#{review.form.field.content.placeholder}"
                                           rows="3"></textarea>
                             </div>
                             <div class="form-group">
-                                <label class="font-bold" for="point">Cho điểm công ty</label>
+                                <label class="font-bold" for="point">[[#{review.form.field.rating}]]</label>
                                 <select class="form-control" id="point" name="rating">
-                                    <option value="1">1 điểm - Max sida, né gấp kẻo hối hận</option>
-                                    <option value="2">2 điểm - Hết thuốc chữa, đang tính đường chuồn</option>
-                                    <option selected value="3">3 điểm - Cũng tạm, để coi sao</option>
-                                    <option value="4">4 điểm - Cũng ngon, nên làm lâu dài</option>
-                                    <option value="5">5 điểm - Công ty tuyệt cmn vời, đuổi cũng méo đi</option>
+                                    <option value="1">[[#{review.form.field.position.point1}]]</option>
+                                    <option value="2">[[#{review.form.field.position.point2}]]</option>
+                                    <option selected value="3">[[#{review.form.field.position.point3}]]</option>
+                                    <option value="4">[[#{review.form.field.position.point4}]]</option>
+                                    <option value="5">[[#{review.form.field.position.point5}]]</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -154,18 +159,18 @@
                                      th:data-sitekey="${@environment.getProperty('google.recaptcha.site-key')}"></div>
                             </div>
                             <div class="form-group">
-                                <p class="mb-0">
-                                    Người đăng chịu trách nhiệm về tính xác thực của nội dung chứ
-                                    <b>bên mình không có chịu</b>, okay?
+                                <p class="mb-0" th:utext="#{review.form.note}">
                                 </p>
                             </div>
 
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Hủy bỏ</button>
-                        <button class="btn btn-primary" onclick="handleSubmitWriteNewReview()" type="button">Đăng
-                            review
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">
+                            [[#{review.form.button.cancel}]]
+                        </button>
+                        <button class="btn btn-primary" onclick="handleSubmitWriteNewReview()" type="button">
+                            [[#{review.form.button.post}]]
                         </button>
                     </div>
                 </div>
@@ -181,24 +186,26 @@
                         <form id="write-reply-form">
                             <input name="review-id" type="hidden" value="">
                             <div class="form-group">
-                                <label class="font-bold" for="name">Tên họ</label>
+                                <label class="font-bold" for="name">[[#{comment.form.field.name}]]</label>
                                 <input class="form-control" id="name" name="name"
-                                       placeholder="Muốn xưng tên thật thì xưng không thì thui" type="text" value="">
+                                       th:placeholder="#{comment.form.field.name.placeholder}" type="text" value="">
                             </div>
                             <div class="form-group">
-                                <label class="font-bold" for="DETAIL">Comment <span
+                                <label class="font-bold" for="DETAIL">[[#{comment.form.field.content}]] <span
                                         class="text-danger">(Bắt buộc)</span></label>
                                 <textarea class="form-control" id="DETAIL" name="content"
-                                          placeholder="Bức xúc hay gì thì viết dài dài vô (Tối thiểu 10 kí tự)."
+                                          th:placeholder="#{comment.form.field.content.placeholder}"
                                           rows="3"></textarea>
                             </div>
                             <div class="form-group">
-                                <label class="font-bold" for="review-reaction">Bày tỏ thái độ</label>
+                                <label class="font-bold"
+                                       for="review-reaction">[[#{comment.form.field.reaction}]]</label>
                                 <select class="form-control" id="review-reaction" name="reaction">
-                                    <option selected="" value="">😐 Không cảm xúc</option>
-                                    <option value="LIKE">👍 Like</option>
-                                    <option value="DISLIKE">👎 Đếch lai</option>
-                                    <option value="SHOULD_DELETE">❌ Xóa giùm</option>
+                                    <option selected="" value="">[[#{comment.form.field.reaction.neutral}]]</option>
+                                    <option value="LIKE">[[#{comment.form.field.reaction.like}]]</option>
+                                    <option value="DISLIKE">[[#{comment.form.field.reaction.dislike}]]</option>
+                                    <option value="SHOULD_DELETE">[[#{comment.form.field.reaction.should_delete}]]
+                                    </option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -208,8 +215,11 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Hủy bỏ</button>
-                        <button class="btn btn-primary" onclick="handleCreateNewReply()" type="button">Đăng comment
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">
+                            [[#{comment.form.button.cancel}]]
+                        </button>
+                        <button class="btn btn-primary" onclick="handleCreateNewReply()" type="button">
+                            [[#{comment.form.button.post}]]
                         </button>
                     </div>
                 </div>
@@ -232,8 +242,12 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Hủy bỏ</button>
-                        <button class="btn btn-primary" onclick="handleReaction()" type="button">Thả reaction</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">
+                            [[#{reaction.form.button.cancel}]]
+                        </button>
+                        <button class="btn btn-primary" onclick="handleReaction()" type="button">
+                            [[#{reaction.form.button.post}]]
+                        </button>
                     </div>
                 </div>
             </div>

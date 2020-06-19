@@ -6,6 +6,9 @@ spring:
   mvc:
     static-path-pattern: /content/**
 
+  messages:
+    basename: i18n/messages
+
 google:
   recaptcha:
     site-key:

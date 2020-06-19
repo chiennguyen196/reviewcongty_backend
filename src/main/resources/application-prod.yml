@@ -12,6 +12,9 @@ spring:
       - classpath:/static/
       - classpath:/public/
 
+  mvc:
+    locale: vi_VN
+
 google:
   recaptcha:
     site-key: 6LfXFgEVAAAAAGytifrzgioMdnu30K3Vbo-0pjaM

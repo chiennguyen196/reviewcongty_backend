@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
 <body>
 <section class="hero-img">
     <div class="hero-body z-1">
         <h1 class="mb-3 hero-title text-white text-center">
-            Review lương bổng, đãi ngộ, HR, tuyển dụng, sếp và công việc,... gì cũng có
+            [[#{search_bar.slogan}]]
         </h1>
         <div id="search-bar" style="position: relative">
         </div>
@@ -24,6 +20,7 @@
         const isProduct = [[${#arrays.contains(@environment.getActiveProfiles(), 'prod')}]];
         const baseImageUrl = '[[@{/content/images}]]';
         const baseHref = '[[@{/}]]';
+        const placeholder = '[[#{search_bar.form.placeholder}]]';
 
         const buildImageUrl = imageName => {
             if (isProduct) {
@@ -66,7 +63,7 @@
                 return html`
                  <div class="company-search-form">
                     <button type="submit"><i class="fa fa-search"></i></button>
-                    <input autocomplete="off" class="form-control" name="company-search" placeholder="Tìm công ty" type="text"
+                    <input autocomplete="off" class="form-control" name="company-search" placeholder=${placeholder} type="text"
                     value=${inputText} onInput=${this.onChangeText}
                     />
                 </div>

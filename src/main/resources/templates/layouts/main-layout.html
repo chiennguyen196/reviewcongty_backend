@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta content="ie=edge" http-equiv="x-ua-compatible">
-    <title th:replace="${title}">Review công ty</title>
+    <title th:replace="${title}"></title>
     <meta content="Review công ty - Home" name="description">
     <link href="canonical_url" rel="canonical">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
@@ -27,8 +27,7 @@
                         <a class="Izone-logo d-flex align-items-center justify-content-start" href="/"
                            title="Home page">
                             <img alt="Izone" class="mr-3" th:src="@{/content/App/images/logo.png}">
-                            <h2 class="text-white font-light mb-0">Review công ty
-                            </h2>
+                            <h2 class="text-white font-light mb-0">[[#{website.name}]]</h2>
                         </a>
                     </div>
                 </div>
@@ -44,7 +43,7 @@
                 <div class="inner-wrapper">
                     <div class="bottom-footer d-flex flex-column flex-md-row align-items-center align-items-md-center justify-content-center justify-content-md-between pt-3 pb-1">
                         <p class="copyright mb-2">© 2020
-                            <a href="/">Review công ty
+                            <a href="/">[[#{website.name}]]
                             </a> All Right Reserved
                         </p>
                         <div>
