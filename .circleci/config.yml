@@ -9,9 +9,6 @@ jobs:
       - image: bitnami/mongodb:latest
         port: 27017:27017
         environment:
-          MONGODB_ROOT_PASSWORD: password123
-          MONGODB_USERNAME: chien
-          MONGODB_PASSWORD: password123
           MONGODB_DATABASE: reviewcongty
 
     steps:
