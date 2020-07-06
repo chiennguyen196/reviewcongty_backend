@@ -1,34 +1,64 @@
-version: 2
-jobs:
-  build:
+version: 2.1
 
-    working_directory: ~/circleci-demo-java-spring
-
-    docker:
-      - image: circleci/openjdk:8-jdk-stretch
-      - image: bitnami/mongodb:latest
-        port: 27017:27017
-        environment:
-          MONGODB_DATABASE: reviewcongty
-
+commands:
+  restore_cache_cmd:
     steps:
-
-      - checkout
-
       - restore_cache:
-          key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
-
-      - run: mvn dependency:go-offline
-
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-
+  save_cache_cmd:
+    steps:
       - save_cache:
           paths:
             - ~/.m2
-          key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
-
-      - run: mvn package
-
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+  test:
+    steps:
+      - checkout
+      - restore_cache_cmd
+      - run: mvn test
+      - save_cache_cmd
       - store_test_results:
           path: target/surefire-reports
 
+  build:
+    steps:
+      - checkout
+      - restore_cache_cmd
+      - run: mvn -Dmaven.test.skip=true package
+      - save_cache_cmd
+      - run: mkdir artifacts && cp target/*.jar artifacts
       - store_artifacts:
-          path: target/reviewcongty-backend-0.0.1-SNAPSHOT.jar
+          path: artifacts
+
+executors:
+  docker-executor:
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+      - image: bitnami/mongodb:latest
+        environment:
+          MONGODB_DATABASE: reviewcongty
+
+jobs:
+  test:
+    executor: docker-executor
+    steps:
+      - test
+
+  build:
+    executor: docker-executor
+    steps:
+      - build
+
+
+workflows:
+  main:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
