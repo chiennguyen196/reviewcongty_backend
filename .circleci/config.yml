@@ -1,0 +1,36 @@
+version: 2
+jobs:
+  build:
+
+    working_directory: ~/circleci-demo-java-spring
+
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+      - image: bitnami/mongodb:latest
+        environment:
+          MONGODB_ROOT_PASSWORD: password123
+          MONGODB_USERNAME: chien
+          MONGODB_PASSWORD: password123
+          MONGODB_DATABASE: reviewcongty
+
+    steps:
+
+      - checkout
+
+      - restore_cache:
+          key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
+
+      - run: mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
+
+      - run: mvn package
+
+      - store_test_results:
+          path: target/surefire-reports
+
+      - store_artifacts:
+          path: target/reviewcongty-backend-0.0.1-SNAPSHOT.jar
