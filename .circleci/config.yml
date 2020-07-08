@@ -29,8 +29,7 @@ commands:
       - run: mvn -Dmaven.test.skip=true package
       - save_cache_cmd
       - run: mkdir artifacts && cp target/*.jar artifacts
-      - store_artifacts:
-          path: artifacts
+
 
 executors:
   docker-executor:
@@ -50,6 +49,18 @@ jobs:
     executor: docker-executor
     steps:
       - build
+      - store_artifacts:
+          path: artifacts
+
+
+  deploy:
+    machine: true
+    steps:
+      - run: echo $CIRCLE_PREVIOUS_BUILD_NUM
+      - add_ssh_keys
+      - run: |
+          ssh $SSH_USER@$SSH_HOST "bash /home/chiennm/web/run_service.sh $CIRCLE_PREVIOUS_BUILD_NUM"
+
 
 
 workflows:
@@ -62,3 +73,14 @@ workflows:
           filters:
             branches:
               only: master
+            tags:
+              only: /^v\d+(\.\d+)*$/
+      
+      - approval-deploy:
+          type: approval
+          requires:
+            - build
+
+      - deploy:
+          requires:
+            - approval-deploy
